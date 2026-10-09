@@ -297,9 +297,15 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.5)}
 .a-rise{opacity:0;animation:dRise var(--d,18s) linear var(--delay,0s) infinite}
 @keyframes dRise{0%{transform:translate(0,0) rotate(-8deg);opacity:0}10%{opacity:var(--o,.65)}50%{transform:translate(26px,calc(var(--h,720px) * -.5)) rotate(12deg)}85%{opacity:var(--o,.65)}100%{transform:translate(-16px,calc(var(--h,720px) * -1)) rotate(-10deg);opacity:0}}
 /* paper children holding hands along the top of the footer, doing a little wave */
-.dolls{display:flex;justify-content:center;overflow:hidden;height:64px;padding-top:14px;opacity:.85;border-bottom:1px solid rgba(255,255,255,.06)}
+.dolls{position:relative;display:flex;justify-content:center;overflow:hidden;overflow-x:clip;overflow-y:visible;height:64px;padding-top:14px;opacity:.85;border-bottom:1px solid rgba(255,255,255,.06)}
 .doll{flex:none;width:40px;height:46px;animation:dollWave 3s ease-in-out calc(var(--i,0) * .09s - 9s) infinite}
-@keyframes dollWave{0%,30%,100%{transform:translateY(0)}12%{transform:translateY(-7px)}}
+/* on computers with a mouse: the children keep waving, AND hop up as the mouse passes over them
+   (the one under the mouse hops highest, its neighbours a little less) */
+@media (hover:hover) and (pointer:fine){
+  .doll{transform-origin:50% 100%;transform:translateY(calc(var(--lift,0) * -16px)) scale(calc(1 + var(--lift,0) * .15));filter:brightness(calc(1 + var(--lift,0) * .35));transition:transform .4s cubic-bezier(.2,.9,.3,1.5),filter .3s ease}
+}
+.doll-heart{position:absolute;top:2px;width:14px;height:14px;margin-left:-7px;pointer-events:none}
+@keyframes dollWave{0%,30%,100%{translate:0 0}12%{translate:0 -7px}}
 /* confetti when a success story is opened */
 .confetti{position:fixed;z-index:60;width:8px;height:12px;border-radius:2px;pointer-events:none}
 .deco-paused,.deco-paused *{animation-play-state:paused!important}
@@ -744,6 +750,44 @@ document.querySelectorAll('.aos,.aos-l,.aos-r').forEach(el => aosObs.observe(el)
   if (!('IntersectionObserver' in window)) return;
   const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('deco-paused', !e.isIntersecting)), { rootMargin: '100px' });
   document.querySelectorAll('.deco, .dolls').forEach(el => io.observe(el));
+})();
+
+/* Footer paper children: on computers they hop up as the mouse passes over them,
+   and a little heart pops up from each child you reach (phones keep the gentle automatic wave) */
+(function(){
+  const row = document.querySelector('.dolls');
+  if (!row || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  const dolls = [...row.querySelectorAll('.doll')];
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let centers = [], mx = null, raf = 0, last = -1, lastT = 0;
+  const measure = () => { centers = dolls.map(d => { const r = d.getBoundingClientRect(); return r.left + r.width / 2; }); };
+  function update(){
+    raf = 0;
+    let near = -1, best = 1e9;
+    dolls.forEach((d, i) => {
+      if (mx === null){ d.style.removeProperty('--lift'); return; }
+      const dist = Math.abs(centers[i] - mx) / 40;            // distance in "children"
+      if (dist < best){ best = dist; near = i; }
+      const lift = Math.max(0, 1 - dist / 3.2);               // reaches about 3 children either side
+      d.style.setProperty('--lift', (lift * lift).toFixed(3));
+    });
+    if (near > -1 && near !== last && best < .6 && !calm && performance.now() - lastT > 140){ pop(near); lastT = performance.now(); }
+    last = near;
+  }
+  function pop(i){
+    const h = document.createElement('span');
+    h.className = 'doll-heart';
+    h.style.left = (centers[i] - row.getBoundingClientRect().left) + 'px';
+    h.style.color = dolls[i].style.color;
+    h.innerHTML = '<svg viewBox="0 0 20 18" width="14" height="14"><path d="M10 17C4 13 1 10 1 6a4.5 4.5 0 0 1 9-1.5A4.5 4.5 0 0 1 19 6c0 4-3 7-9 11Z" fill="currentColor"/></svg>';
+    row.appendChild(h);
+    h.animate([{ transform: 'translateY(0) scale(.5)', opacity: 1 }, { transform: 'translateY(-34px) scale(1.15)', opacity: 0 }],
+              { duration: 900, easing: 'ease-out' }).onfinish = () => h.remove();
+  }
+  row.addEventListener('mouseenter', measure);
+  window.addEventListener('resize', () => { centers = []; }, { passive: true });
+  row.addEventListener('mousemove', e => { if (!centers.length) measure(); mx = e.clientX; if (!raf) raf = requestAnimationFrame(update); });
+  row.addEventListener('mouseleave', () => { mx = null; last = -1; if (!raf) raf = requestAnimationFrame(update); });
 })();
 
 /* ── English / 中文 switch (same mechanism as Elder Home lang.js) ── */
