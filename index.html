@@ -383,6 +383,31 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.5)}
 @media(max-width:1320px){.nav a{padding:.5rem .6rem}}
 @media(max-width:1180px){.nav{display:none}.burger{display:flex}.hdr-r .btn-ghost{display:none}}
 
+/* ═══ Get in touch (bottom of the home page) ═══ */
+.contact-band{background:#fff;overflow:hidden}
+.contact-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:clamp(2rem,5vw,4.5rem);align-items:center}
+.contact-list{display:flex;flex-direction:column;gap:1rem;margin:1.6rem 0 1.8rem}
+.cl-row{display:grid;grid-template-columns:150px 1fr;gap:1rem;align-items:start}
+.cl-row dt{display:flex;align-items:center;gap:.6rem;font-weight:700;color:var(--leaf-700);font-size:.92rem}
+.cl-ic{width:36px;height:36px;border-radius:10px;background:var(--leaf-50);color:var(--leaf-700);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;transition:transform .45s cubic-bezier(.2,.9,.3,1.4)}
+.cl-row:hover .cl-ic{transform:rotate(-10deg) scale(1.12)}
+.cl-row dd{font-weight:600;color:var(--ink-900);line-height:1.55;padding-top:.45rem}
+.cl-row dd a:hover{color:var(--leaf-700);text-decoration:underline}
+.contact-btns{display:flex;flex-wrap:wrap;gap:.7rem}
+.contact-map{position:relative;border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow-lg),0 0 0 1px rgba(46,125,107,.12);aspect-ratio:16/10;background:var(--leaf-100)}
+.contact-map iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+/* two children holding hands: they sway together, blink, and little hearts float up from their hands */
+.kids{display:block;width:170px;height:118px;margin:clamp(2.5rem,5vw,3.5rem) auto 0;overflow:visible}
+.kids-pair{transform-box:fill-box;transform-origin:50% 100%;animation:kidsSway 3.2s ease-in-out infinite alternate}
+@keyframes kidsSway{from{transform:rotate(-2.5deg)}to{transform:rotate(2.5deg) translateY(-3px)}}
+.kids-eye{transform-box:fill-box;transform-origin:center;animation:kidsBlink 4.5s infinite}
+@keyframes kidsBlink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+.kids-heart{transform-box:fill-box;transform-origin:center;opacity:0;animation:kidsHeart 3.2s ease-out infinite}
+.kids-heart.h2{animation-delay:-1.6s}
+@keyframes kidsHeart{0%{transform:translate(0,0) scale(.4);opacity:0}20%{opacity:1}100%{transform:translate(var(--hx,0px),-48px) scale(1.15);opacity:0}}
+@media(max-width:900px){.contact-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.cl-row{grid-template-columns:1fr;gap:.35rem}.cl-row dd{padding-top:0}}
+
 /* Scroll reveal (content stays visible if JavaScript is off) */
 .js .aos{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.3,1)}
 .js .aos-l{opacity:0;transform:translateX(-28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.3,1)}
@@ -754,6 +779,60 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.5)}
   </div>
 </section>
 
+<!-- GET IN TOUCH -->
+<section class="sec contact-band" id="contact">
+  <div class="wrap contact-grid">
+    <div class="aos-l">
+      <div class="eyebrow" data-i18n="ct.eyebrow">Visit us</div>
+      <h2 class="section-h" data-i18n-html="ct.h2">Get in <em>touch</em></h2>
+      <p class="section-p" data-i18n="ct.p">We warmly welcome visitors. Please schedule your visit in advance by calling us or messaging us on WhatsApp.</p>
+      <dl class="contact-list">
+        <div class="cl-row"><dt><span class="cl-ic"><i class="fa fa-phone"></i></span><span data-i18n="ct.phone">Contact no.</span></dt><dd><a href="tel:+6075353356">+607-535 3356</a></dd></div>
+        <div class="cl-row"><dt><span class="cl-ic"><i class="fab fa-whatsapp"></i></span>WhatsApp</dt><dd><a href="#" data-wa="visit" target="_blank" rel="noopener">+607-535 3801</a></dd></div>
+        <div class="cl-row"><dt><span class="cl-ic"><i class="fa fa-location-dot"></i></span><span data-i18n="ct.addr">Address</span></dt><dd>115 &amp; 115A, Jalan Datuk Sulaiman, Taman Abad, 80250 Johor Bahru, Johor Darul Ta’zim</dd></div>
+      </dl>
+      <div class="contact-btns">
+        <a class="btn btn-primary" href="https://www.google.com/maps/place/115,+Jalan+Dato+Sulaiman,+Taman+Abad,+80250+Johor+Bahru,+Johor+Darul+Ta%27zim,+Malaysia/@1.4835556,103.7573321,16.6z/data=!4m6!3m5!1s0x31da6d372789beb3:0x56e9cb00896f4083!8m2!3d1.4840708!4d103.7570245!16s%2Fg%2F11rpl7wymg" target="_blank" rel="noopener"><i class="fa fa-route"></i> <span data-i18n="ct.dir">Get directions</span></a>
+        <a class="btn btn-wa" href="#" data-wa="visit" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> <span data-i18n="cred.cta">Schedule a visit</span></a>
+      </div>
+    </div>
+    <div class="contact-map aos-r d1">
+      <iframe src="https://maps.google.com/maps?q=1.4840708,103.7570245&amp;z=16&amp;hl=en&amp;output=embed" title="Map: Amitabha Foundation Children Home, Taman Abad, Johor Bahru" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Two children holding hands (original drawing): they sway, blink, and hearts float up from their hands -->
+  <svg class="kids" viewBox="0 0 170 118" aria-hidden="true" focusable="false">
+    <path class="kids-heart" style="--hx:-6px" d="M85 58c-3-2-5-4-5-6a2.6 2.6 0 0 1 5-1a2.6 2.6 0 0 1 5 1c0 2-2 4-5 6Z" fill="#ee9fb0"/>
+    <path class="kids-heart h2" style="--hx:8px" d="M85 58c-3-2-5-4-5-6a2.6 2.6 0 0 1 5-1a2.6 2.6 0 0 1 5 1c0 2-2 4-5 6Z" fill="#f2a93b"/>
+    <g class="kids-pair" fill="none" stroke="#2e7d6b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <!-- boy -->
+      <path d="M46 72L46 104M58 72L58 104"/>
+      <path d="M44 50h20l3 24H41Z" fill="#fff"/>
+      <path d="M44 54L30 68M64 54L82 68"/>
+      <circle cx="28.5" cy="70" r="3.4" fill="#fff"/>
+      <circle cx="52" cy="30" r="17" fill="#fff"/>
+      <path d="M36 25c4-9 14-13 24-9c3 1 6 4 8 8c-6-3-11-3-15 1c-3-3-9-3-17 0Z" fill="#2e7d6b"/>
+      <circle class="kids-eye" cx="46" cy="32" r="1.8" fill="#2e7d6b" stroke="none"/><circle class="kids-eye" cx="58" cy="32" r="1.8" fill="#2e7d6b" stroke="none"/>
+      <path d="M46.5 38q5.5 5 11 0"/>
+      <!-- girl -->
+      <path d="M112 76L112 104M124 76L124 104"/>
+      <path d="M110 50h16l9 28H101Z" fill="#fff"/>
+      <path d="M110 54L88 68M126 54L140 68"/>
+      <circle cx="141.5" cy="70" r="3.4" fill="#fff"/>
+      <circle cx="99" cy="19" r="6.5" fill="#2e7d6b"/><circle cx="137" cy="19" r="6.5" fill="#2e7d6b"/>
+      <circle cx="118" cy="30" r="17" fill="#fff"/>
+      <path d="M101 30c0-12 9-19 18-18c9 0 16 7 16 17c-5-6-11-9-17-6c-5-4-12-2-17 7Z" fill="#2e7d6b"/>
+      <circle class="kids-eye" cx="112" cy="32" r="1.8" fill="#2e7d6b" stroke="none"/><circle class="kids-eye" cx="124" cy="32" r="1.8" fill="#2e7d6b" stroke="none"/>
+      <path d="M112.5 38q5.5 5 11 0"/>
+      <circle cx="103.5" cy="22.5" r="2.4" fill="#f2a93b" stroke="none"/><circle cx="132.5" cy="22.5" r="2.4" fill="#f2a93b" stroke="none"/>
+      <!-- hands held together -->
+      <circle cx="85" cy="68.5" r="3.8" fill="#fff"/>
+    </g>
+    <g fill="#ee9fb0" opacity=".55"><circle cx="42" cy="37" r="2.6"/><circle cx="62" cy="37" r="2.6"/><circle cx="108" cy="37" r="2.6"/><circle cx="128" cy="37" r="2.6"/></g>
+  </svg>
+</section>
+
 <!-- DONATION / VOLUNTEER CTA -->
 <div class="cta-band" id="donate">
   <svg class="hero-arcs" viewBox="0 0 600 600" aria-hidden="true"><g fill="none" stroke="#ffd58a" stroke-width="1"><circle cx="300" cy="300" r="140" opacity=".8"/><circle cx="300" cy="300" r="200" opacity=".55"/><circle cx="300" cy="300" r="260" opacity=".3"/></g></svg>
@@ -1013,7 +1092,8 @@ document.querySelectorAll('.aos,.aos-l,.aos-r').forEach(el => aosObs.observe(el)
     'ex.eyebrow': '探索', 'ex.h2': '认识<em>儿童小屋</em>', 'ex.go': '了解更多', 'ex.care': '为每个孩子提供住所、教育与情感支持。', 'ex.stories': '认识Jane、Jimmy与Zell，以及他们创造的未来。',
     'ex.moments': '记录孩子们日常的喜悦与成长的里程碑。', 'ex.faq': '资助、义工、探访与扣税等常见问题。', 'ex.p': '了解我们如何照顾每个孩子、在这里成长的孩子们的故事、最新的温馨时刻，以及常见问题的解答。',
     'nav.involved': '参与我们',
-    'cta.more': '更多参与方式'
+    'cta.more': '更多参与方式',
+    'ct.eyebrow': '欢迎来访', 'ct.h2': '联系<em>我们</em>', 'ct.p': '我们诚挚欢迎您到访。请提前致电或通过 WhatsApp 预约探访。', 'ct.phone': '联系电话', 'ct.addr': '地址', 'ct.dir': '获取路线'
   };
   const origTitle = document.title;
   function store(k, v){ try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e) { return null; } }
