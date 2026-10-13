@@ -129,7 +129,6 @@ h2.section-h{font-family:var(--display);font-weight:500;font-size:clamp(1.7rem,4
 h2.section-h em{font-style:italic;color:var(--leaf-700);font-weight:500}
 .section-p{font-size:clamp(.92rem,2vw,1rem);color:var(--ink-500);line-height:1.7;max-width:620px}
 .sh{margin-bottom:3.2rem}
-.sh.c{text-align:center}.sh.c .eyebrow{justify-content:center}.sh.c .section-p{margin:auto}
 
 /* Credentials */
 .milestones{display:flex;flex-direction:column;gap:.8rem;margin:1.8rem 0 1.6rem}
@@ -339,63 +338,6 @@ body{padding-top:var(--header-h)}
 .hdr-r .btn-donate:hover{transform:translateY(-2px)}
 .mob-menu a.mob-seek{color:#d9467a;font-weight:700}
 
-/* ═══ Campaign archive (Moments page): finished campaigns, written straight into moments.html ═══ */
-.archive-band{background:var(--cream);overflow:hidden}
-.archive-band .wrap{position:relative;z-index:1}
-.arc-total-wrap{text-align:center;margin:-1.6rem 0 2.4rem}
-.arc-total{display:inline-flex;align-items:center;gap:.55rem;background:#fff;border:1px solid #f4e1bd;border-radius:999px;padding:.55rem 1.2rem;font-weight:700;font-size:.9rem;color:var(--ink-700);box-shadow:var(--shadow-sm)}
-.arc-total i{color:var(--sun-d)}
-.arc-total b{font-family:var(--display);font-size:1.15rem;color:var(--leaf-700)}
-.arc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.6rem;align-items:stretch}
-.arc-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;transition:transform var(--t),box-shadow var(--t),border-color var(--t)}
-.arc-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:var(--leaf-100)}
-.arc-card[hidden]{display:none}
-.arc-cover{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--leaf-100)}
-.arc-cover>img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.3,1)}
-.arc-card:hover .arc-cover>img{transform:scale(1.05)}
-.arc-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(12,26,28,.3));pointer-events:none}
-.arc-badge{position:absolute;left:1rem;top:1rem;z-index:1;display:inline-flex;align-items:center;gap:.45rem;background:#fff;color:var(--leaf-700);font-weight:800;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:.45rem .8rem;border-radius:999px;box-shadow:0 8px 20px rgba(10,40,45,.18)}
-.arc-badge i{color:var(--leaf-600)}
-.arc-body{padding:1.4rem 1.5rem 1.5rem;display:flex;flex-direction:column;flex:1}
-.arc-date{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:.35rem}
-.arc-body h3{font-family:var(--display);font-weight:600;font-size:1.3rem;line-height:1.3;color:var(--ink-900)}
-.arc-summary{font-size:.93rem;color:var(--ink-500);line-height:1.65;margin-top:.5rem}
-.arc-body h4{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--leaf-700);margin:1.1rem 0 .55rem}
-.arc-bought{display:flex;flex-direction:column;gap:.45rem}
-.arc-bought li{position:relative;padding-left:1.8rem;font-size:.92rem;color:var(--ink-700);font-weight:500;line-height:1.5}
-.arc-bought li::before{content:"✓";position:absolute;left:0;top:.05rem;width:1.2rem;height:1.2rem;border-radius:50%;background:var(--leaf-700);color:#fff;font-size:.7rem;font-weight:800;display:flex;align-items:center;justify-content:center}
-.arc-thanks{font-family:var(--display);font-style:italic;color:var(--leaf-800);border-left:3px solid var(--sun);padding-left:.85rem;margin-top:1rem;line-height:1.6;font-size:.98rem}
-.arc-still{margin-top:.9rem;padding:.75rem .95rem;border-radius:12px;background:#fbe9ea;color:var(--brand-red);font-size:.88rem;font-weight:600;line-height:1.5}
-.arc-photos{display:flex;gap:.5rem;margin-top:1rem}
-.arc-photos button{width:84px;height:64px;border-radius:10px;overflow:hidden;padding:0;cursor:zoom-in;box-shadow:0 4px 12px rgba(10,40,45,.12)}
-.arc-photos img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-.arc-photos button:hover img{transform:scale(1.1)}
-.arc-cta{align-self:flex-start;margin-top:1rem}
-/* amount raised: number counts up, bar fills, "goal reached" pops */
-.arc-amount{margin:.2rem 0 .3rem;padding:1rem 1.1rem;border-radius:16px;background:var(--cream);border:1px solid #f4e1bd}
-.arc-amt-top{display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap}
-.arc-amt-top b{font-family:var(--display);font-size:1.8rem;color:var(--leaf-700);font-weight:600;line-height:1.1}
-.arc-amt-top span{font-size:.84rem;color:var(--ink-500);font-weight:600}
-.arc-bar{height:12px;border-radius:99px;background:#f2e0c0;overflow:hidden;margin:.65rem 0 .5rem}
-.arc-bar i{position:relative;display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--leaf-500),var(--leaf-700) 60%,var(--sun));overflow:hidden;transition:width 1.6s cubic-bezier(.2,.7,.3,1)}
-.arc-bar i::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-100%);animation:arcShine 2.8s ease-in-out 1.8s infinite}
-@keyframes arcShine{0%,55%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
-.arc-card.go .arc-bar i{width:var(--p)}
-.arc-amt-foot{display:flex;align-items:center;justify-content:space-between;gap:.6rem;font-size:.78rem;font-weight:700;color:var(--ink-500)}
-.arc-reached{display:inline-flex;align-items:center;gap:.4rem;font-weight:800;color:var(--leaf-700);background:var(--leaf-50);padding:.3rem .75rem;border-radius:999px}
-.arc-card.go .arc-reached{animation:arcPop .65s cubic-bezier(.2,.9,.3,1.4) 1.5s backwards}
-@keyframes arcPop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.18);opacity:1}100%{transform:scale(1)}}
-.arc-card.go .arc-bought li{animation:arcIn .55s ease backwards}
-.arc-card.go .arc-bought li:nth-child(1){animation-delay:.35s}.arc-card.go .arc-bought li:nth-child(2){animation-delay:.5s}.arc-card.go .arc-bought li:nth-child(3){animation-delay:.65s}.arc-card.go .arc-bought li:nth-child(4){animation-delay:.8s}.arc-card.go .arc-bought li:nth-child(n+5){animation-delay:.95s}
-@keyframes arcIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
-.arc-more{display:flex;justify-content:center;margin-top:2rem}
-/* English / 中文: each entry holds both; the page shows the one matching the language switch */
-.arc-card .zh{display:none}
-html[lang="zh"] .arc-card:not(.no-zh) .en{display:none}
-html[lang="zh"] .arc-card:not(.no-zh) .zh{display:revert}
-@media(max-width:900px){.arc-grid{grid-template-columns:1fr}}
-@media(max-width:480px){.arc-body{padding:1.2rem 1.1rem 1.3rem}.arc-photos button{width:72px;height:56px}}
-
 /* Scroll reveal (content stays visible if JavaScript is off) */
 .js .aos{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.3,1)}
 .js .aos-l{opacity:0;transform:translateX(-28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.3,1)}
@@ -542,7 +484,6 @@ html[lang="zh"] .arc-card:not(.no-zh) .zh{display:revert}
         <h2 class="section-h" data-i18n-html="news.h2">Tiny steps, <em>big memories</em></h2>
         <p class="section-p" data-i18n="news.p">Everyday joys, milestones and heartfelt connections from life at our home.</p>
       </div>
-      <a class="btn btn-ghost" href="#archive"><i class="fa fa-trophy"></i> <span data-i18n="arc.link">Campaign archive</span></a>
     </div>
     <div class="news-grid">
       <article class="news-card aos">
@@ -593,155 +534,6 @@ html[lang="zh"] .arc-card:not(.no-zh) .zh{display:revert}
         </div>
       </article>
     </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     CAMPAIGN ARCHIVE
-     ───────────────────────────────────────────────────────────────────────
-     HOW TO ADD A FINISHED CAMPAIGN (no database needed)
-     1. Scroll down to the template part, just under the cards. Copy everything
-        between "COPY FROM HERE" and "TO HERE".
-     2. Paste it just under the line "NEWEST CAMPAIGNS GO HERE" (the top card is the newest).
-     3. Change these parts:
-          id="..."            a short unique name, lowercase with dashes, e.g. cny-redpackets-2027
-          data-date="..."     the month the campaign ended, e.g. 2027-02 (or 2027-02-15, or just 2027)
-          data-raised="3120"  the REAL amount raised in RM (numbers only, no commas)
-          data-goal="3000"    the goal in RM. The bar, percentage and "Goal reached" appear by themselves.
-                              Delete data-raised and data-goal if you do not want to show an amount.
-          src="..."           the cover photo, e.g. assets/img/campaigns/shoes.jpg (lowercase file name)
-          badge, title, summary, "What it bought" list, thank-you line: change the words.
-     4. Chinese: fill in the Chinese part. If you delete the whole Chinese part,
-        Chinese readers will see the English version.
-     5. Photos (optional): keep up to 3 photo buttons. Each needs the big photo and a small copy
-        (in the thumbs folder). If you only have one version, use it for both.
-     6. Only the 4 newest cards show at first; older ones appear under "Show earlier campaigns".
-        The total at the top adds up every data-raised number by itself.
-     7. Upload moments.html (and the photos) to GitHub and click "Commit changes".
-     Tip: only publish real amounts from your bank or receipt records.
-     To remove a card, delete its whole article block.
-     ═══════════════════════════════════════════════════════════════════════ -->
-<section class="sec archive-band" id="archive">
-  <div class="deco" aria-hidden="true">
-    <svg class="a-pxtwinkle" style="--x:38.6%;--y:24.3%;--s:9px;--d:4.0s;--delay:-2.3s;--p:1.9s"><use href="#i-pspark" width="100%" height="100%"/></svg>
-    <svg class="a-pxtwinkle px-glow hide-sm" style="--x:55.1%;--y:37.8%;--s:21px;--d:3.4s;--delay:-3.1s;--p:1.9s"><use href="#i-pstar" width="100%" height="100%"/></svg>
-    <svg class="a-pxtwinkle" style="--x:82.6%;--y:42.7%;--s:6px;--d:2.5s;--delay:-2.9s;--p:1.4s"><use href="#i-pdot" width="100%" height="100%"/></svg>
-    <svg class="a-pxtwinkle hide-sm" style="--x:64.8%;--y:58.6%;--s:9px;--d:3.8s;--delay:-0.1s;--p:2.1s"><use href="#i-pspark-pale" width="100%" height="100%"/></svg>
-    <svg class="a-pxtwinkle px-glow" style="--x:82.7%;--y:23.0%;--s:21px;--d:3.7s;--delay:-0.5s;--p:1.9s"><use href="#i-pstar-pale" width="100%" height="100%"/></svg>
-    <svg class="a-pxtwinkle hide-sm" style="--x:13.9%;--y:84.4%;--s:8px;--d:4.2s;--delay:-0.2s;--p:1.5s"><use href="#i-pdot-pale" width="100%" height="100%"/></svg>
-    <svg class="a-pxtwinkle" style="--x:61.5%;--y:57.5%;--s:9px;--d:4.0s;--delay:-3.4s;--p:1.5s"><use href="#i-pspark" width="100%" height="100%"/></svg>
-    <svg class="a-pxtwinkle px-glow hide-sm" style="--x:16.0%;--y:62.8%;--s:18px;--d:3.5s;--delay:-2.0s;--p:1.6s"><use href="#i-pstar" width="100%" height="100%"/></svg>
-    <svg class="a-pxtwinkle" style="--x:4.1%;--y:15.9%;--s:8px;--d:3.7s;--delay:-1.7s;--p:1.9s"><use href="#i-pdot" width="100%" height="100%"/></svg>
-  </div>
-  <div class="wrap">
-    <div class="sh c">
-      <div class="eyebrow aos" data-i18n="arc.eyebrow">Campaign archive</div>
-      <h2 class="section-h aos d1" data-i18n-html="arc.h2">What your kindness <em>made possible</em></h2>
-      <p class="section-p aos d2" data-i18n="arc.p">Every campaign we finish is shown here: how much was raised, what it bought, and our heartfelt thank you.</p>
-    </div>
-    <div class="arc-total-wrap"><div class="arc-total" id="arcTotal" hidden></div></div>
-
-    <div class="arc-grid" id="arcGrid">
-      <!-- ▼▼▼ NEWEST CAMPAIGNS GO HERE ▼▼▼ -->
-      <article class="arc-card aos" id="charity-bazaar-2025" data-date="2025">
-        <div class="arc-cover"><img src="assets/img/moment-bazaar.jpg" alt="Representatives of Pusat Tuisyen Simfoni Cerdikjaya presenting their donation" loading="lazy" style="object-position:center 30%"><span class="arc-badge"><i class="fa fa-circle-check"></i> <span class="en">Campaign complete</span><span class="zh">活动圆满结束</span></span></div>
-        <div class="arc-body">
-        <div class="arc-date"></div>
-        <div class="en">
-          <h3>Charity Bazaar 2025 by Pusat Tuisyen Simfoni Cerdikjaya</h3>
-          <p class="arc-summary">For the 8th year in a row, the entire proceeds of the bazaar were donated to our Children Home.</p>
-          <h4>What it bought</h4>
-          <ul class="arc-bought">
-            <li>Daily needs of 22 children</li>
-            <li>School fees</li>
-            <li>Medical expenses</li>
-          </ul>
-          <p class="arc-thanks">Thank you to the school, parents, students, alumni and public for walking alongside us all these years.</p>
-        </div>
-        <div class="zh">
-          <h3>Pusat Tuisyen Simfoni Cerdikjaya 2025 慈善义卖</h3>
-          <p class="arc-summary">连续第八年，义卖所得全数捐赠给我们的儿童小屋。</p>
-          <h4>用在了哪里</h4>
-          <ul class="arc-bought">
-            <li>22 名孩子的日常生活开销</li>
-            <li>学杂费</li>
-            <li>医疗费用</li>
-          </ul>
-          <p class="arc-thanks">感谢校方、家长、学生、校友与大众一路以来的陪伴与支持。</p>
-        </div>
-        </div>
-      </article>
-      <article class="arc-card aos" id="new-beds-2025" data-date="2025">
-        <div class="arc-cover"><img src="assets/img/moment-beds-2.jpg" alt="New wooden bunk beds donated to the Children Home" loading="lazy"><span class="arc-badge"><i class="fa fa-circle-check"></i> <span class="en">Thank you</span><span class="zh">感谢</span></span></div>
-        <div class="arc-body">
-        <div class="arc-date"></div>
-        <div class="en">
-          <h3>New bunk beds from NAM MAH Furniture and Liviva Advisory Group</h3>
-          <p class="arc-summary">NAM MAH Furniture and Liviva Advisory Group gifted new beds, giving our children a safer, more comfortable place to rest and grow.</p>
-          <h4>What it bought</h4>
-          <ul class="arc-bought">
-            <li>New bunk beds for our children</li>
-            <li>A safer, more comfortable place to rest</li>
-          </ul>
-          <p class="arc-thanks">Every bed is more than furniture: it is a place where children can rest, grow and feel secure.</p>
-          <p class="arc-still">Our Children Home still needs 9 more beds and 14 mattresses.</p>
-        </div>
-        <div class="zh">
-          <h3>南马木业与力威瓦集团捐赠的全新双层床</h3>
-          <p class="arc-summary">南马木业（NAM MAH Furniture）与力威瓦集团（Liviva Advisory Group）捐赠全新床具，为孩子们提供更安全、更舒适的睡眠环境。</p>
-          <h4>用在了哪里</h4>
-          <ul class="arc-bought">
-            <li>为孩子们添置全新双层床</li>
-            <li>更安全、更舒适的睡眠环境</li>
-          </ul>
-          <p class="arc-thanks">每一张床不仅仅是一件家具，更是孩子们得以休息、成长与感到安心的港湾。</p>
-          <p class="arc-still">我们的儿童小屋目前仍急需另外9张床架和14张床垫。</p>
-        </div>
-        <div class="arc-photos">
-          <button type="button" data-lightbox="assets/img/moment-beds-1.jpg"><img src="assets/img/thumbs/moment-beds-1.jpg" alt="Volunteers assembling the new bunk beds" loading="lazy"></button>
-          <button type="button" data-lightbox="assets/img/moment-beds-3.jpg"><img src="assets/img/thumbs/moment-beds-3.jpg" alt="Volunteers unpacking bed frames" loading="lazy"></button>
-          <button type="button" data-lightbox="assets/img/moment-beds-4.jpg"><img src="assets/img/thumbs/moment-beds-4.jpg" alt="A new bunk bed being put together" loading="lazy"></button>
-        </div>
-        <a href="#" data-donate class="btn btn-donate arc-cta" target="_blank" rel="noopener"><i class="fa fa-bed"></i> <span class="en">Help with beds</span><span class="zh">捐助床具</span></a>
-        </div>
-      </article>
-    </div>
-    <div class="arc-more"><button type="button" class="btn btn-ghost" id="arcMore" hidden></button></div>
-
-    <template id="archive-template">
-      <!-- ▼▼▼ COPY FROM HERE ▼▼▼ -->
-      <article class="arc-card aos" id="school-shoes-2027" data-date="2027-01" data-raised="3120" data-goal="3000">
-        <div class="arc-cover"><img src="assets/img/campaigns/your-photo.jpg" alt="Describe the photo in a few words" loading="lazy"><span class="arc-badge"><i class="fa fa-circle-check"></i> <span class="en">Goal reached</span><span class="zh">达成目标</span></span></div>
-        <div class="arc-body">
-        <div class="arc-date"></div>
-        <div class="en">
-          <h3>Campaign name</h3>
-          <p class="arc-summary">One or two sentences about the campaign and the result.</p>
-          <h4>What it bought</h4>
-          <ul class="arc-bought">
-            <li>22 pairs of school shoes</li>
-            <li>22 school bags</li>
-          </ul>
-          <p class="arc-thanks">A short thank you to everyone who gave.</p>
-        </div>
-        <div class="zh">
-          <h3>活动名称</h3>
-          <p class="arc-summary">一两句话介绍活动与成果。</p>
-          <h4>用在了哪里</h4>
-          <ul class="arc-bought">
-            <li>22 双校鞋</li>
-            <li>22 个书包</li>
-          </ul>
-          <p class="arc-thanks">感谢每一位捐款的您。</p>
-        </div>
-        <div class="arc-photos">
-          <button type="button" data-lightbox="assets/img/campaigns/photo-1.jpg"><img src="assets/img/campaigns/photo-1.jpg" alt="Describe the photo" loading="lazy"></button>
-          <button type="button" data-lightbox="assets/img/campaigns/photo-2.jpg"><img src="assets/img/campaigns/photo-2.jpg" alt="Describe the photo" loading="lazy"></button>
-        </div>
-        </div>
-      </article>
-      <!-- ▲▲▲ TO HERE ▲▲▲ -->
-    </template>
   </div>
 </section>
 
@@ -938,78 +730,6 @@ document.querySelectorAll('.news-card').forEach(card => {
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 })();
 
-/* Campaign archive: amounts count up, bars fill, total is added up, earlier campaigns fold away */
-(function(){
-  const grid = document.getElementById('arcGrid'); if (!grid) return;
-  const cards = [...grid.querySelectorAll('.arc-card')];
-  const moreBtn = document.getElementById('arcMore'), totalEl = document.getElementById('arcTotal');
-  const LIMIT = 4;
-  const T = {
-    en: { of: g => 'raised of ' + g + ' goal', only: 'raised', reached: 'Goal reached', pct: p => p + '% of goal',
-          more: 'Show earlier campaigns', less: 'Show fewer', total: (a, n) => '<i class="fa fa-trophy"></i> <b>' + a + '</b> raised across ' + n + (n === 1 ? ' campaign' : ' campaigns') },
-    zh: { of: g => '已筹得 · 目标 ' + g, only: '已筹得', reached: '达成目标', pct: p => '已达目标 ' + p + '%',
-          more: '查看更早的活动', less: '收起', total: (a, n) => '<i class="fa fa-trophy"></i> 共筹得 <b>' + a + '</b>（' + n + ' 项活动）' }
-  };
-  const lang = () => document.documentElement.lang === 'zh' ? 'zh' : 'en';
-  const t = () => T[lang()];
-  const rm = n => 'RM' + Math.round(Number(n) || 0).toLocaleString('en-MY');
-  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function when(s){
-    const p = String(s || '').split('-').map(Number);
-    if (!p[0]) return '';
-    if (p.length === 1) return String(p[0]);
-    const d = new Date(p[0], (p[1] || 1) - 1, p[2] || 1);
-    return d.toLocaleDateString(lang() === 'zh' ? 'zh-CN' : 'en-MY', p.length === 2 ? { month: 'long', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' });
-  }
-  function amount(card){
-    const raised = +card.dataset.raised || 0, goal = +card.dataset.goal || 0;
-    let box = card.querySelector('.arc-amount');
-    if (!raised){ if (box) box.remove(); return; }
-    if (!box){ box = document.createElement('div'); box.className = 'arc-amount'; card.querySelector('.arc-date').after(box); }
-    const pct = goal ? Math.round(raised / goal * 100) : 0, done = goal && raised >= goal;
-    box.innerHTML = '<div class="arc-amt-top"><b>' + rm(card._counted ? raised : 0) + '</b><span>' + (goal ? t().of(rm(goal)) : t().only) + '</span></div>'
-      + (goal ? '<div class="arc-bar"><i style="--p:' + Math.min(100, pct) + '%"></i></div><div class="arc-amt-foot"><span>' + t().pct(pct) + '</span>' + (done ? '<span class="arc-reached"><i class="fa fa-circle-check"></i> ' + t().reached + '</span>' : '') + '</div>' : '');
-  }
-  function countUp(card){
-    const raised = +card.dataset.raised || 0; if (!raised){ return; }
-    const finish = () => { card._counted = true; const b = card.querySelector('.arc-amt-top b'); if (b) b.textContent = rm(raised); };
-    if (calm){ finish(); return; }
-    const t0 = performance.now();
-    (function step(now){
-      const p = Math.min(1, (now - t0) / 1500), b = card.querySelector('.arc-amt-top b');
-      if (b) b.textContent = rm(raised * (1 - Math.pow(1 - p, 3)));
-      if (p < 1) requestAnimationFrame(step); else finish();
-    })(t0);
-  }
-  function limit(){
-    cards.forEach((c, i) => c.hidden = !grid._all && i >= LIMIT);
-    moreBtn.hidden = cards.length <= LIMIT;
-    moreBtn.textContent = grid._all ? t().less : t().more;
-  }
-  function draw(){
-    let sum = 0, n = 0;
-    cards.forEach(card => {
-      const zh = card.querySelector('.zh');
-      if (!zh || !zh.textContent.trim()) card.classList.add('no-zh');
-      card.querySelector('.arc-date').textContent = when(card.dataset.date);
-      amount(card);
-      if (+card.dataset.raised){ sum += +card.dataset.raised; n++; }
-    });
-    totalEl.hidden = !sum; if (sum) totalEl.innerHTML = t().total(rm(sum), n);
-    limit();
-  }
-  moreBtn.addEventListener('click', () => { grid._all = !grid._all; limit(); });
-  draw();
-  if ('IntersectionObserver' in window){
-    const io = new IntersectionObserver(es => es.forEach(e => {
-      if (!e.isIntersecting) return;
-      io.unobserve(e.target); e.target.classList.add('go'); countUp(e.target);
-    }), { threshold: .3 });
-    cards.forEach(c => io.observe(c));
-  } else cards.forEach(c => { c.classList.add('go'); c._counted = true; draw(); });
-  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
-})();
-
 /* Moving drawings: pause while off screen (saves battery on phones) */
 (function(){
   if (!('IntersectionObserver' in window)) return;
@@ -1080,8 +800,7 @@ document.querySelectorAll('.news-card').forEach(card => {
     'alt.chess2': '课室里的国际象棋训练', 'alt.chess3': '义工教练在白板前讲解棋局', 'alt.beds1': '义工组装全新双层床', 'alt.beds3': '义工拆开床架包装', 'alt.beds4': '正在组装的新双层床',
     'ph.moments.h': '温馨时刻', 'ph.moments.p': '记录孩子们日常的喜悦、成长的里程碑与真挚的情感连结。',
     'nav.involved': '参与我们',
-    'cta.more': '更多参与方式',
-    'arc.link': '往期活动', 'arc.eyebrow': '活动回顾', 'arc.h2': '您的善心，<em>成就了这些</em>', 'arc.p': '每一场完成的筹款活动都会记录在这里：筹得多少善款、用在了哪里，以及我们衷心的感谢。'
+    'cta.more': '更多参与方式'
   };
   const origTitle = document.title;
   function store(k, v){ try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e) { return null; } }
