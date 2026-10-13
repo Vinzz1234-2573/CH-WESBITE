@@ -40,7 +40,7 @@
   --shadow-lg:0 24px 64px rgba(10,40,45,.14);
   --t:.32s cubic-bezier(.4,.0,.2,1);
   --max:1240px;
-  --header-h:72px;
+  --header-h:88px;
   --sans:"Plus Jakarta Sans",system-ui,sans-serif;
 
   /* ── Children Home programme tokens ── */
@@ -73,17 +73,17 @@ header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.93);backdr
 header.scrolled{background:rgba(255,255,255,.97);box-shadow:0 2px 18px rgba(10,40,45,.06)}
 .hdr{max-width:var(--max);margin:auto;padding:0 1.5rem;height:var(--header-h);display:flex;align-items:center;justify-content:space-between;gap:1.2rem}
 .brand{display:flex;align-items:center;gap:.7rem}
-.brand img{height:54px;width:auto;max-width:none;display:block;object-fit:contain}
+.brand img{height:66px;width:auto;max-width:none;display:block;object-fit:contain}
 /* "Children Home" name beside the logo, so the header always says which home this is */
 .brand,.nav,.hdr-r{flex-shrink:0}
-.brand-tag{font-family:var(--display);font-weight:600;font-size:1.15rem;line-height:1.05;letter-spacing:-.01em;color:var(--leaf-800);padding:.15rem 0 .15rem .8rem;border-left:2px solid var(--sun);white-space:nowrap}
-#hdr.bt-compact .brand-tag{font-size:.92rem;white-space:normal;max-width:5.4em}
+.brand-tag{font-family:var(--display);font-weight:600;font-size:1.35rem;line-height:1.05;letter-spacing:-.01em;color:var(--leaf-800);padding:.15rem 0 .15rem .8rem;border-left:2px solid var(--sun);white-space:nowrap}
+#hdr.bt-compact .brand-tag{font-size:1.05rem;white-space:normal;max-width:5.4em}
 #hdr.bt-hide .brand-tag{display:none}
 .brand-logo{display:block;border-radius:8px;transition:opacity var(--t)}
 .brand-logo:hover{opacity:.82}
 .brand-tag:hover{color:var(--leaf-600)}
 .nav{display:flex;gap:.1rem;align-items:center}
-.nav a{font-size:.86rem;font-weight:500;color:var(--ink-700);padding:.5rem .85rem;border-radius:8px;white-space:nowrap;transition:color .3s ease,background .3s ease}
+.nav a{font-size:1rem;font-weight:500;color:var(--ink-700);padding:.55rem .8rem;border-radius:8px;white-space:nowrap;transition:color .3s ease,background .3s ease}
 .nav a:hover{background:rgba(247,230,233,.5);color:var(--brand-red-nav)}
 .nav a.on{color:var(--brand-red-nav)}
 .nav a.on::after{content:"";display:block;width:18px;height:2px;border-radius:2px;background:var(--brand-red-nav);margin:2px auto -6px}
@@ -322,12 +322,12 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.5)}
 }
 .doll-heart{position:absolute;top:2px;width:14px;height:14px;margin-left:-7px;pointer-events:none}
 @keyframes dollWave{0%,30%,100%{translate:0 0}12%{translate:0 -7px}}
-/* golden pixel stars, sparkles and dots: some float slowly upward, others twinkle in place, all gently pulse */
-.a-pxrise{opacity:0;animation:pxRise var(--d,16s) linear var(--delay,0s) infinite}
-@keyframes pxRise{0%{transform:translate(0,0);opacity:0}10%{opacity:1}50%{transform:translate(16px,calc(var(--h,700px) * -.5))}88%{opacity:1}100%{transform:translate(-10px,calc(var(--h,700px) * -1));opacity:0}}
+/* golden pixel stars, sparkles and dots: some drift slowly down from the top, others twinkle in place, all gently pulse */
+.a-pxfall{opacity:0;animation:pxFall var(--d,16s) linear var(--delay,0s) infinite}
+@keyframes pxFall{0%{transform:translate(0,0);opacity:0}10%{opacity:1}50%{transform:translate(-16px,calc(var(--h,700px) * .5))}88%{opacity:1}100%{transform:translate(10px,var(--h,700px));opacity:0}}
 .a-pxtwinkle{animation:pxTwinkle var(--d,3s) ease-in-out var(--delay,0s) infinite}
 @keyframes pxTwinkle{0%,100%{opacity:.35}50%{opacity:1}}
-.a-pxrise use,.a-pxtwinkle use{transform-box:fill-box;transform-origin:center;animation:pxPulse var(--p,1.6s) ease-in-out infinite alternate}
+.a-pxfall use,.a-pxtwinkle use{transform-box:fill-box;transform-origin:center;animation:pxPulse var(--p,1.6s) ease-in-out infinite alternate}
 @keyframes pxPulse{from{transform:scale(.7)}to{transform:scale(1.08)}}
 .px-glow{filter:drop-shadow(0 0 5px rgba(255,196,60,.6))}
 .deco-paused,.deco-paused *{animation-play-state:paused!important}
@@ -342,8 +342,57 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.5)}
 .cta-more{display:inline-flex;align-items:center;gap:.45rem;margin-top:1.4rem;color:var(--sun-l);font-weight:600;font-size:.9rem;transition:gap var(--t)}
 .cta-more:hover{gap:.75rem;text-decoration:underline}
 /* the menu has one more item now: tighten it, and switch to the ☰ menu a little earlier */
-@media(max-width:1320px){.nav a{padding:.5rem .6rem}}
+@media(max-width:1440px){.nav a{padding:.55rem .65rem}}
 @media(max-width:1180px){.nav{display:none}.burger{display:flex}.hdr-r .btn-ghost{display:none}}
+
+/* Bigger header: wider bar on large screens, bigger buttons; slightly shorter on phones */
+.hdr{max-width:1560px;gap:1.4rem}
+.hdr-r{gap:.65rem}
+.hdr-r .btn{font-size:.97rem;padding:.75rem 1.35rem}
+.nav{gap:.2rem}
+@media(max-width:640px){:root{--header-h:72px}.hdr{padding:0 1rem;gap:.8rem}.hdr-r .btn{font-size:.86rem;padding:.6rem 1rem}}
+/* when the menu still doesn't fit, the header switches itself to the ☰ menu (set by the header-fitting script) */
+#hdr.nav-burger .nav{display:none}
+#hdr.nav-burger .burger{display:flex}
+#hdr.nav-burger .hdr-r .btn-ghost{display:none}
+
+/* Header that reacts to scrolling:
+   at the top of the page it is big; scroll down and it glides into a slimmer bar with a soft shadow,
+   and a gold-to-green line along its bottom edge shows how far down the page you are. */
+#hdr{position:fixed;left:0;right:0;top:0}
+body{padding-top:var(--header-h)}
+.hdr{height:var(--hdr-now,var(--header-h));transition:height .45s cubic-bezier(.4,0,.2,1)}
+.brand img{transition:height .45s cubic-bezier(.4,0,.2,1),opacity var(--t)}
+.brand-tag,.nav a{transition:color .3s ease,background .3s ease,font-size .45s cubic-bezier(.4,0,.2,1)}
+#hdr .hdr-r .btn{transition:color .3s ease,background .3s ease,border-color .3s ease,box-shadow .3s ease,transform .3s ease,padding .45s cubic-bezier(.4,0,.2,1),font-size .45s cubic-bezier(.4,0,.2,1)}
+@media(min-width:1500px){
+  :root{--header-h:108px}
+  .hdr{max-width:1680px}
+  .brand img{height:80px}
+  .brand-tag{font-size:1.55rem}
+  .nav a{font-size:1.08rem;padding:.6rem .85rem}
+  .hdr-r .btn{font-size:1.04rem;padding:.85rem 1.55rem}
+}
+#hdr.scrolled{--hdr-now:72px;background:rgba(255,255,255,.9);box-shadow:0 6px 24px rgba(10,40,45,.1)}
+#hdr.scrolled .brand img{height:52px}
+#hdr.scrolled .brand-tag{font-size:1.12rem}
+#hdr.scrolled .nav a{font-size:.95rem}
+#hdr.scrolled .hdr-r .btn{font-size:.9rem;padding:.6rem 1.15rem}
+.hdr-progress{position:absolute;left:0;right:0;bottom:-1px;height:3px;pointer-events:none}
+.hdr-progress span{display:block;height:100%;background:linear-gradient(90deg,var(--sun),var(--leaf-500),var(--leaf-700));transform-origin:0 50%;transform:scaleX(0)}
+.mob-menu{max-height:calc(100vh - var(--hdr-now,var(--header-h)));overflow-y:auto}
+@media(max-width:640px){#hdr.scrolled{--hdr-now:60px}#hdr.scrolled .brand img{height:40px}}
+
+/* Seek Help button: pink, with a gently pulsing glow like the Donate button (the two pulse in turn) */
+.btn.btn-seek{background:#d9467a;border-color:#d9467a;color:#fff;animation:seekGlow 2.5s ease-in-out -1.25s infinite}
+.btn.btn-seek:hover{background:#bd3565;border-color:#bd3565;color:#fff;transform:translateY(-2px)}
+.btn.btn-seek:active{background:#a32b55;border-color:#a32b55;color:#fff;box-shadow:0 6px 18px rgba(217,70,122,.4)}
+.btn.btn-seek i{filter:drop-shadow(0 0 4px rgba(255,255,255,.6))}
+.btn.btn-seek:hover i{animation:seekHop .8s ease-in-out}
+@keyframes seekGlow{0%,100%{box-shadow:0 4px 18px rgba(217,70,122,.45),0 0 0 0 rgba(217,70,122,0)}50%{box-shadow:0 6px 28px rgba(217,70,122,.8),0 0 24px rgba(217,70,122,.45),0 0 0 8px rgba(217,70,122,.13)}}
+@keyframes seekHop{0%,100%{transform:scale(1)}25%{transform:scale(1.22) translateY(-1px)}45%{transform:scale(.96)}65%{transform:scale(1.14) translateY(-1px)}}
+.hdr-r .btn-donate:hover{transform:translateY(-2px)}
+.mob-menu a.mob-seek{color:#d9467a;font-weight:700}
 
 /* Scroll reveal (content stays visible if JavaScript is off) */
 .js .aos{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.3,1)}
@@ -366,7 +415,7 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.5)}
   .prog-grid{grid-template-columns:1fr}
 }
 @media(max-width:640px){
-  .brand img{height:44px}
+  .brand img{height:46px}
   .brand{gap:.55rem}
   .brand-tag{padding-left:.6rem}
   .foot-top{grid-template-columns:1fr}
@@ -424,7 +473,7 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.5)}
     </nav>
     <div class="hdr-r">
       <button class="lang-toggle btn btn-ghost">中文</button>
-      <a href="#" data-wa="help" class="btn btn-ghost" target="_blank" rel="noopener"><i class="fa fa-hand-holding-heart"></i> <span data-i18n="nav.seekHelp">Seek Help</span></a>
+      <a href="#" data-wa="help" class="btn btn-ghost btn-seek" target="_blank" rel="noopener"><i class="fa fa-hand-holding-heart"></i> <span data-i18n="nav.seekHelp">Seek Help</span></a>
       <a href="#" data-donate class="btn btn-donate" target="_blank" rel="noopener"><img src="assets/img/donation.png" class="donate-img" alt=""> <span data-i18n="nav.donate">Donate</span></a>
       <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
@@ -436,23 +485,24 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.5)}
     <a href="moments.html" data-i18n="nav.moments">Moments</a>
     <a href="get-involved.html" data-i18n="nav.involved">Get Involved</a>
     <a href="faq.html" data-i18n="nav.faq">FAQ</a>
-    <a href="#" data-wa="help" target="_blank" rel="noopener" style="color:var(--leaf-700);font-weight:700"><i class="fa fa-hand-holding-heart"></i> <span data-i18n="nav.seekHelp">Seek Help</span></a>
+    <a href="#" data-wa="help" target="_blank" rel="noopener" class="mob-seek"><i class="fa fa-hand-holding-heart"></i> <span data-i18n="nav.seekHelp">Seek Help</span></a>
     <a href="#" data-donate target="_blank" rel="noopener" style="color:var(--brand-red);font-weight:700"><i class="fa fa-heart"></i> <span data-i18n="nav.donateNow">Donate Now</span></a>
     <button class="lang-toggle btn btn-ghost" style="width:100%;margin-top:.6rem;justify-content:flex-start">中文</button>
   </nav>
+  <div class="hdr-progress" aria-hidden="true"><span></span></div>
 </header>
 
 <!-- PAGE BANNER -->
 <section class="page-hero">
   <div class="page-hero-bg" style="background-image:url('assets/img/life-cny.jpg');background-position:center 30%"></div>
   <div class="deco" aria-hidden="true">
-    <svg class="a-pxrise px-glow" style="--x:5.6%;--b:-30px;--s:24px;--d:18.1s;--delay:-10.1s;--h:400px;--p:1.4s"><use href="#i-pstar" width="100%" height="100%"/></svg>
-    <svg class="a-pxrise hide-sm" style="--x:25.4%;--b:-30px;--s:10px;--d:17.1s;--delay:-10.6s;--h:400px;--p:1.4s"><use href="#i-pdot" width="100%" height="100%"/></svg>
-    <svg class="a-pxrise" style="--x:31.5%;--b:-30px;--s:12px;--d:17.7s;--delay:-1.5s;--h:400px;--p:2.0s"><use href="#i-pspark" width="100%" height="100%"/></svg>
-    <svg class="a-pxrise px-glow" style="--x:47.4%;--b:-30px;--s:19px;--d:13.3s;--delay:-20.9s;--h:400px;--p:1.9s"><use href="#i-pstar-pale" width="100%" height="100%"/></svg>
-    <svg class="a-pxrise hide-sm" style="--x:67.3%;--b:-30px;--s:9px;--d:13.3s;--delay:-6.9s;--h:400px;--p:1.7s"><use href="#i-pdot-pale" width="100%" height="100%"/></svg>
-    <svg class="a-pxrise" style="--x:73.7%;--b:-30px;--s:16px;--d:15.9s;--delay:-3.3s;--h:400px;--p:2.0s"><use href="#i-pspark" width="100%" height="100%"/></svg>
-    <svg class="a-pxrise" style="--x:87.5%;--b:-30px;--s:11px;--d:16.6s;--delay:-11.6s;--h:400px;--p:1.5s"><use href="#i-pdot" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall px-glow" style="--x:5.6%;--y:-30px;--s:24px;--d:18.1s;--delay:-10.1s;--h:400px;--p:1.4s"><use href="#i-pstar" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall hide-sm" style="--x:25.4%;--y:-30px;--s:10px;--d:17.1s;--delay:-10.6s;--h:400px;--p:1.4s"><use href="#i-pdot" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall" style="--x:31.5%;--y:-30px;--s:12px;--d:17.7s;--delay:-1.5s;--h:400px;--p:2.0s"><use href="#i-pspark" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall px-glow" style="--x:47.4%;--y:-30px;--s:19px;--d:13.3s;--delay:-20.9s;--h:400px;--p:1.9s"><use href="#i-pstar-pale" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall hide-sm" style="--x:67.3%;--y:-30px;--s:9px;--d:13.3s;--delay:-6.9s;--h:400px;--p:1.7s"><use href="#i-pdot-pale" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall" style="--x:73.7%;--y:-30px;--s:16px;--d:15.9s;--delay:-3.3s;--h:400px;--p:2.0s"><use href="#i-pspark" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall" style="--x:87.5%;--y:-30px;--s:11px;--d:16.6s;--delay:-11.6s;--h:400px;--p:1.5s"><use href="#i-pdot" width="100%" height="100%"/></svg>
     <svg class="a-pxtwinkle" style="--x:71.8%;--y:21.3%;--s:9px;--d:3.9s;--delay:-0.9s;--p:2.0s"><use href="#i-pspark" width="100%" height="100%"/></svg>
     <svg class="a-pxtwinkle px-glow hide-sm" style="--x:58.2%;--y:85.4%;--s:23px;--d:3.7s;--delay:-3.1s;--p:1.8s"><use href="#i-pstar" width="100%" height="100%"/></svg>
     <svg class="a-pxtwinkle" style="--x:83.8%;--y:16.0%;--s:8px;--d:3.9s;--delay:-0.8s;--p:2.1s"><use href="#i-pdot" width="100%" height="100%"/></svg>
@@ -822,15 +872,15 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.5)}
   <svg class="hero-arcs" viewBox="0 0 600 600" aria-hidden="true"><g fill="none" stroke="#ffd58a" stroke-width="1"><circle cx="300" cy="300" r="140" opacity=".8"/><circle cx="300" cy="300" r="200" opacity=".55"/><circle cx="300" cy="300" r="260" opacity=".3"/></g></svg>
   <!-- Moving drawings: golden stars and sparkles twinkle and float up, with crayon hearts -->
   <div class="deco" aria-hidden="true">
-    <svg class="a-pxrise px-glow" style="--x:3.7%;--b:-30px;--s:17px;--d:16.1s;--delay:-14.4s;--h:440px;--p:1.3s"><use href="#i-pstar" width="100%" height="100%"/></svg>
-    <svg class="a-pxrise hide-sm" style="--x:15.1%;--b:-30px;--s:8px;--d:19.1s;--delay:-3.1s;--h:440px;--p:1.9s"><use href="#i-pdot" width="100%" height="100%"/></svg>
-    <svg class="a-pxrise" style="--x:29.9%;--b:-30px;--s:11px;--d:17.3s;--delay:-9.4s;--h:440px;--p:1.6s"><use href="#i-pspark" width="100%" height="100%"/></svg>
-    <svg class="a-pxrise px-glow" style="--x:43.0%;--b:-30px;--s:17px;--d:13.2s;--delay:-19.7s;--h:440px;--p:1.6s"><use href="#i-pstar-pale" width="100%" height="100%"/></svg>
-    <svg class="a-pxrise hide-sm" style="--x:47.7%;--b:-30px;--s:8px;--d:15.9s;--delay:-20.1s;--h:440px;--p:1.4s"><use href="#i-pdot-pale" width="100%" height="100%"/></svg>
-    <svg class="a-pxrise" style="--x:58.6%;--b:-30px;--s:14px;--d:17.4s;--delay:-20.0s;--h:440px;--p:2.0s"><use href="#i-pspark" width="100%" height="100%"/></svg>
-    <svg class="a-pxrise" style="--x:70.3%;--b:-30px;--s:8px;--d:19.7s;--delay:-20.8s;--h:440px;--p:1.2s"><use href="#i-pdot" width="100%" height="100%"/></svg>
-    <svg class="a-pxrise px-glow hide-sm" style="--x:83.8%;--b:-30px;--s:26px;--d:18.2s;--delay:-4.6s;--h:440px;--p:2.0s"><use href="#i-pstar" width="100%" height="100%"/></svg>
-    <svg class="a-pxrise px-glow" style="--x:94.4%;--b:-30px;--s:18px;--d:18.1s;--delay:-4.6s;--h:440px;--p:1.2s"><use href="#i-pstar" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall px-glow" style="--x:3.7%;--y:-30px;--s:17px;--d:16.1s;--delay:-14.4s;--h:440px;--p:1.3s"><use href="#i-pstar" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall hide-sm" style="--x:15.1%;--y:-30px;--s:8px;--d:19.1s;--delay:-3.1s;--h:440px;--p:1.9s"><use href="#i-pdot" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall" style="--x:29.9%;--y:-30px;--s:11px;--d:17.3s;--delay:-9.4s;--h:440px;--p:1.6s"><use href="#i-pspark" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall px-glow" style="--x:43.0%;--y:-30px;--s:17px;--d:13.2s;--delay:-19.7s;--h:440px;--p:1.6s"><use href="#i-pstar-pale" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall hide-sm" style="--x:47.7%;--y:-30px;--s:8px;--d:15.9s;--delay:-20.1s;--h:440px;--p:1.4s"><use href="#i-pdot-pale" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall" style="--x:58.6%;--y:-30px;--s:14px;--d:17.4s;--delay:-20.0s;--h:440px;--p:2.0s"><use href="#i-pspark" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall" style="--x:70.3%;--y:-30px;--s:8px;--d:19.7s;--delay:-20.8s;--h:440px;--p:1.2s"><use href="#i-pdot" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall px-glow hide-sm" style="--x:83.8%;--y:-30px;--s:26px;--d:18.2s;--delay:-4.6s;--h:440px;--p:2.0s"><use href="#i-pstar" width="100%" height="100%"/></svg>
+    <svg class="a-pxfall px-glow" style="--x:94.4%;--y:-30px;--s:18px;--d:18.1s;--delay:-4.6s;--h:440px;--p:1.2s"><use href="#i-pstar" width="100%" height="100%"/></svg>
     <svg class="a-pxtwinkle" style="--x:34.6%;--y:33.4%;--s:11px;--d:3.5s;--delay:-3.3s;--p:2.2s"><use href="#i-pspark" width="100%" height="100%"/></svg>
     <svg class="a-pxtwinkle px-glow hide-sm" style="--x:94.8%;--y:87.5%;--s:22px;--d:2.8s;--delay:-0.7s;--p:1.8s"><use href="#i-pstar" width="100%" height="100%"/></svg>
     <svg class="a-pxtwinkle" style="--x:54.3%;--y:61.3%;--s:6px;--d:2.6s;--delay:-3.7s;--p:1.8s"><use href="#i-pdot" width="100%" height="100%"/></svg>
@@ -892,7 +942,7 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.5)}
     <div class="foot-col">
       <h4 data-i18n="foot.c3">Contact</h4>
       <a class="fci" href="tel:+6075353356"><i class="fa fa-phone"></i><span>+607-535 3356</span></a>
-      <a class="fci" href="#" data-wa="help" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i><span>+607-535 3801 <small>WhatsApp</small></span></a>
+      <a class="fci" href="#" data-wa="help" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i><span>016-9567861 <small>WhatsApp</small></span></a>
       <a class="fci" href="tel:+6072132448"><i class="fa fa-headset"></i><span>+607-213 2448 <small data-i18n="foot.hotline">Amitabha Hotline</small></span></a>
       <a class="fci" href="https://www.google.com/maps/place/115,+Jalan+Dato+Sulaiman,+Taman+Abad,+80250+Johor+Bahru,+Johor+Darul+Ta%27zim,+Malaysia/@1.4835556,103.7573321,16.6z/data=!4m6!3m5!1s0x31da6d372789beb3:0x56e9cb00896f4083!8m2!3d1.4840708!4d103.7570245!16s%2Fg%2F11rpl7wymg" target="_blank" rel="noopener"><i class="fa fa-location-dot"></i><span>115 &amp; 115A, Jalan Datuk Sulaiman, Taman Abad, 80250 Johor Bahru, Johor Darul Ta’zim</span></a>
     </div>
@@ -911,7 +961,7 @@ footer{background:var(--navy-900);color:rgba(255,255,255,.5)}
 <script>
 /* ── Site links: edit here only ─────────────────────────────── */
 const CONFIG = {
-  whatsapp: '6075353801',   // Children Home WhatsApp (from amitabhafoundation.my chat widget)
+  whatsapp: '60169567861',  // Children Home WhatsApp: 016-9567861
   donate:   'https://m.amitabhafoundation.my/en/donation'
 };
 const WA_TEXT = {
@@ -941,9 +991,10 @@ window.addEventListener('scroll', () => hdr.classList.toggle('scrolled', window.
   const logo = hdr.querySelector('.brand img');
   const over = () => row.scrollWidth > row.clientWidth + 1;
   function fit(){
-    hdr.classList.remove('bt-compact', 'bt-hide');
+    hdr.classList.remove('bt-compact', 'bt-hide', 'nav-burger');
     if (over()) hdr.classList.add('bt-compact');
     if (over()) hdr.classList.add('bt-hide');
+    if (over()) hdr.classList.add('nav-burger');
   }
   let raf = 0;
   window.addEventListener('resize', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(fit); }, { passive: true });
@@ -951,6 +1002,25 @@ window.addEventListener('scroll', () => hdr.classList.toggle('scrolled', window.
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
   window.fitBrandTag = fit;
   fit();
+})();
+
+/* Header: shrinks smoothly after you scroll down, with a reading-progress line along its bottom edge */
+(function(){
+  const bar = document.querySelector('.hdr-progress span');
+  let raf = 0, was = hdr.classList.contains('scrolled'), refit = 0;
+  function onScroll(){
+    raf = 0;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    if (bar) bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, scrollY / max) : 0).toFixed(4) + ')';
+    const now = scrollY > 30;
+    if (now !== was){                                   // header size changed: re-check that the menu fits once it settles
+      was = now; clearTimeout(refit);
+      refit = setTimeout(() => window.fitBrandTag && window.fitBrandTag(), 480);
+    }
+  }
+  addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(onScroll); }, { passive: true });
+  hdr.classList.toggle('scrolled', scrollY > 30);
+  onScroll();
 })();
 
 /* Scroll reveal */
