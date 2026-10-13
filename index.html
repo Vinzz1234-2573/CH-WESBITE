@@ -468,11 +468,6 @@ body{padding-top:var(--header-h)}
 .hdr-r .btn-donate:hover{transform:translateY(-2px)}
 .mob-menu a.mob-seek{color:#d9467a;font-weight:700}
 
-/* Staff login link (footer) */
-.staff-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.74rem;color:rgba(255,255,255,.32);transition:color var(--t)}
-.staff-link:hover{color:rgba(255,255,255,.85)}
-.staff-link i{font-size:.65rem}
-
 /* Scroll reveal (content stays visible if JavaScript is off) */
 .js .aos{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.3,1)}
 .js .aos-l{opacity:0;transform:translateX(-28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.3,1)}
@@ -999,7 +994,6 @@ body{padding-top:var(--header-h)}
     </div>
   </div>
   <div class="foot-bot">
-    <a class="staff-link" href="admin.html"><i class="fa fa-lock"></i> <span data-i18n="foot.staff">Staff login</span></a>
     <p data-i18n="foot.copy">© 2026 Amitabha Foundation (1179489T) · Children Home Programme · All rights reserved.</p>
     <p class="disclaimer" data-i18n="foot.disclaimer">Some images featured on this site are stock photos used solely for illustrative and representational purposes.</p>
   </div>
@@ -1010,8 +1004,6 @@ body{padding-top:var(--header-h)}
   <a class="float-wa" href="#" data-wa="help" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i> <span class="fl-label">WhatsApp</span></a>
 </div>
 
-<!-- Connection to the admin database (visitor statistics + blog posts): edit supabase-config.js -->
-<script src="supabase-config.js"></script>
 <script>
 /* ── Site links: edit here only ─────────────────────────────── */
 const CONFIG = {
@@ -1029,38 +1021,6 @@ document.querySelectorAll('[data-donate]').forEach(a => a.href = CONFIG.donate);
 document.querySelectorAll('[data-wa]').forEach(a => {
   a.href = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(WA_TEXT[a.dataset.wa] || WA_TEXT.help);
 });
-
-/* Visitor statistics for the admin dashboard.
-   Anonymous: no names, emails or personal details; skipped when "Do Not Track" is switched on. */
-(function(){
-  const S = window.CH_SUPABASE;
-  window.chTrack = function(){};
-  if (!S || !S.url || /YOUR-PROJECT/.test(S.url) || /YOUR-ANON/.test(S.anonKey) || navigator.webdriver || navigator.doNotTrack === '1') return;
-  const headers = { apikey: S.anonKey, Authorization: 'Bearer ' + S.anonKey, 'Content-Type': 'application/json', Prefer: 'return=minimal' };
-  const send = (table, row) => fetch(S.url + '/rest/v1/' + table, { method: 'POST', headers, body: JSON.stringify(row), keepalive: true }).catch(() => {});
-  let visitor = null, lang = 'en';
-  try {
-    visitor = localStorage.getItem('ch_vid');
-    if (!visitor){ visitor = (window.crypto && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2)).slice(0, 36); localStorage.setItem('ch_vid', visitor); }
-    lang = localStorage.getItem('site_lang') === 'zh' ? 'zh' : 'en';
-  } catch(e){}
-  const page = (location.pathname.split('/').pop() || 'index.html').replace(/\.html?$/, '') || 'index';
-  const device = innerWidth < 640 ? 'mobile' : innerWidth < 1024 ? 'tablet' : 'desktop';
-  let referrer = null;
-  try { const r = new URL(document.referrer); if (r.hostname && r.hostname !== location.hostname) referrer = r.hostname.replace(/^www\./, '').slice(0, 120); } catch(e){}
-  send('page_views', { page, visitor, referrer, device, lang });
-  window.chTrack = (name, label) => send('events', { page, name, label: label ? String(label).slice(0, 60) : null, visitor });
-  document.addEventListener('click', e => {
-    const a = e.target.closest && e.target.closest('a'); if (!a) return;
-    const href = a.getAttribute('href') || '';
-    if (a.hasAttribute('data-donate')) chTrack('donate');
-    else if (a.hasAttribute('data-wa')) chTrack('whatsapp', a.dataset.wa);
-    else if (href.startsWith('tel:')) chTrack('phone', href.slice(4));
-    else if (/google\.[a-z.]+\/maps/.test(href)) chTrack('directions');
-    else if (href.includes('volunteer-now')) chTrack('volunteer_form');
-    else if (href.includes('give-hope')) chTrack('give_hope');
-  }, true);
-})();
 
 /* Header scroll + burger */
 const hdr = document.getElementById('hdr');
@@ -1281,8 +1241,7 @@ document.querySelectorAll('.aos,.aos-l,.aos-r').forEach(el => aosObs.observe(el)
     'ex.moments': '记录孩子们日常的喜悦与成长的里程碑。', 'ex.faq': '资助、义工、探访与扣税等常见问题。', 'ex.p': '了解我们如何照顾每个孩子、在这里成长的孩子们的故事、最新的温馨时刻，以及常见问题的解答。',
     'nav.involved': '参与我们',
     'cta.more': '更多参与方式',
-    'ct.eyebrow': '欢迎来访', 'ct.h2': '联系<em>我们</em>', 'ct.p': '我们诚挚欢迎您到访。请提前致电或通过 WhatsApp 预约探访。', 'ct.phone': '联系电话', 'ct.addr': '地址', 'ct.dir': '获取路线',
-    'foot.staff': '职员登录'
+    'ct.eyebrow': '欢迎来访', 'ct.h2': '联系<em>我们</em>', 'ct.p': '我们诚挚欢迎您到访。请提前致电或通过 WhatsApp 预约探访。', 'ct.phone': '联系电话', 'ct.addr': '地址', 'ct.dir': '获取路线'
   };
   const origTitle = document.title;
   function store(k, v){ try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e) { return null; } }
