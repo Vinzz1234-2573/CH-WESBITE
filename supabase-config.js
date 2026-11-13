@@ -15,6 +15,6 @@
    no database moments) and admin.html shows how to connect.
    ════════════════════════════════════════════════════════════════════════════ */
 window.CH_SUPABASE = {
-  url: '',
-  key: ''
+  url: 'https://nnljtbhislaowcztqaxd.supabase.co',
+  key: 'sb_publishable_BkXaZEWCCeZAA5ajTZ-yIw_-k7LGGQ8'
 };
