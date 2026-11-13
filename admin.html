@@ -80,13 +80,24 @@ dialog::backdrop{background:rgba(20,10,40,.55)}
 .photos .ph button{position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;border:0;background:var(--red);color:#fff;font-size:.7rem;cursor:pointer}
 .check{display:flex;align-items:center;gap:.6rem;font-weight:600;font-size:.9rem;cursor:pointer}
 .check input{width:18px;height:18px;accent-color:var(--purple)}
-.sheet{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1rem}
-.sheet-top{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem}
-.sheet-top b{flex:1;min-width:160px}
-.sheet-edit{display:grid;grid-template-columns:1fr 2fr auto;gap:.6rem;margin-top:.8rem}
-@media(max-width:700px){.sheet-edit{grid-template-columns:1fr}}
-.sheet-edit input{padding:.55rem .75rem;border:1px solid #ddd5e8;border-radius:10px;width:100%}
-.sheet iframe{display:block;width:100%;height:560px;margin-top:.8rem;border:1px solid var(--line);border-radius:12px;background:#fff}
+.code-box{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#1f1a2e}
+.code-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.55rem .8rem;background:#fff;border-bottom:1px solid var(--line)}
+.code-box pre{margin:0;padding:1rem;max-height:260px;overflow:auto;font:.76rem/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#efe9fb;white-space:pre}
+.rs-tabs{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1rem}
+.rs-chip{display:inline-flex;align-items:center;gap:.45rem;padding:.5rem .9rem;border-radius:999px;border:1px solid var(--line);background:#fff;font-weight:700;font-size:.86rem;cursor:pointer;color:var(--ink-2)}
+.rs-chip .n{font-weight:600;color:var(--ink-3)}
+.rs-chip .new{padding:.08rem .45rem;border-radius:99px;background:var(--red);color:#fff;font-size:.7rem;font-weight:800}
+.rs-chip.on{background:var(--purple);border-color:var(--purple);color:#fff}.rs-chip.on .n{color:#e6dcf6}
+.rs-tools{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem;margin-bottom:.7rem}
+.rs-tools input{flex:1;min-width:220px;max-width:420px;padding:.6rem .85rem;border:1px solid #ddd5e8;border-radius:11px}
+.rs-tools input:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 3px rgba(106,66,176,.15)}
+.rs-wrap{overflow:auto;max-height:70vh;background:#fff;border:1px solid var(--line);border-radius:14px}
+.rs-table{border-collapse:collapse;width:100%;font-size:.84rem}
+.rs-table th{position:sticky;top:0;z-index:1;background:var(--purple-50);text-align:left;font-weight:800;color:var(--ink);padding:.65rem .8rem;border-bottom:1px solid var(--line);white-space:nowrap}
+.rs-table td{padding:.6rem .8rem;border-bottom:1px solid #f0ecf5;vertical-align:top;max-width:340px;white-space:pre-wrap;word-break:break-word;color:var(--ink-2)}
+.rs-table tr.fresh td{background:#fff7e6}
+.rs-table td:first-child{white-space:nowrap;color:var(--ink-3)}
+.rs-empty{padding:2rem;text-align:center;color:var(--ink-3)}
 .toast{position:fixed;left:50%;bottom:1.4rem;transform:translateX(-50%) translateY(20px);opacity:0;z-index:100;padding:.75rem 1.2rem;border-radius:12px;background:var(--ink);color:#fff;font-size:.9rem;font-weight:600;box-shadow:0 12px 30px rgba(0,0,0,.25);transition:opacity .25s,transform .25s;pointer-events:none;max-width:92vw}
 .toast.on{opacity:1;transform:translateX(-50%)}
 .toast.bad{background:var(--red)}
@@ -161,12 +172,50 @@ code{background:var(--purple-50);padding:.1rem .35rem;border-radius:5px;font-siz
 
     <div data-panel="sheets" hidden>
       <div class="sec-head">
-        <div><h2>Form responses</h2><p class="sub">The Google Sheets that collect your Google Form answers, in one place.</p></div>
-        <button class="btn btn-p" type="button" id="addSheet"><i class="fa fa-plus"></i> Add a sheet</button>
+        <div><h2>Form responses</h2><p class="sub">Answers from your Google Forms, read straight from your Google Sheet.</p></div>
+        <div class="acts" id="rsActs" hidden>
+          <button class="btn btn-g btn-s" type="button" id="rsRefresh"><i class="fa fa-rotate"></i> Refresh</button>
+          <a class="btn btn-g btn-s" id="rsOpen" href="#" target="_blank" rel="noopener"><i class="fa fa-arrow-up-right-from-square"></i> Open in Google Sheets</a>
+          <button class="btn btn-g btn-s" type="button" id="rsChange"><i class="fa fa-gear"></i> Connection</button>
+        </div>
       </div>
-      <div class="note" style="margin-bottom:.8rem"><i class="fa fa-circle-info"></i><div><b>How to get a sheet link:</b> open the Google Form → <b>Responses</b> tab → <b>Link to Sheets</b> (or <b>View in Sheets</b>) → copy the sheet’s address from the browser and paste it here with <b>Edit</b>.</div></div>
-      <div class="note warn" style="margin-bottom:1.2rem"><i class="fa fa-shield-halved"></i><div><b>Keep the sheets private.</b> They hold people’s names and phone numbers. Leave each sheet’s sharing on <b>Restricted</b> (only your team), and never use <b>Publish to the web</b>. The preview below only appears when you’re signed in to Google in this browser with access to the sheet; otherwise use <b>Open in Google Sheets</b>.</div></div>
-      <div class="list" id="sheetList"></div>
+      <p class="sub" id="rsLoading"><i class="fa fa-spinner fa-spin"></i> Loading…</p>
+
+      <!-- Not connected yet: setup steps -->
+      <div class="card" id="rsSetup" hidden>
+        <h2 style="font-size:1.25rem;margin-bottom:.3rem">Connect your Google Sheet</h2>
+        <p class="sub">About 5 minutes, done once. After this, every form’s responses show here.</p>
+        <ol class="steps">
+          <li><b>Use one spreadsheet for all forms.</b> In each Google Form: <b>Responses</b> tab → <b>⋮</b> → <b>Select response destination</b> → <b>Select existing spreadsheet</b> → choose the same spreadsheet. Each form gets its own tab (existing answers are copied in). Rename the tabs, for example “Volunteer”.</li>
+          <li><b>Add the script.</b> In that spreadsheet: <b>Extensions → Apps Script</b>. Delete what’s there, paste the code below (your secret is already in it), and click <b>Save</b>.</li>
+          <li><b>Deploy it.</b> <b>Deploy → New deployment</b> → <b>Select type</b> (⚙) → <b>Web app</b>. Set <b>Execute as: Me</b> and <b>Who has access: Anyone</b>. Click <b>Deploy</b>, allow the permissions Google asks for, and copy the <b>Web app URL</b>.</li>
+          <li><b>Paste the URL below</b> and click <b>Connect</b>.</li>
+        </ol>
+        <div class="code-box">
+          <div class="code-top"><span class="help">Apps Script code (with your secret)</span><button class="btn btn-p btn-s" type="button" id="rsCopy"><i class="fa fa-copy"></i> Copy code</button></div>
+          <pre id="rsCode"></pre>
+        </div>
+        <div class="field" style="margin-top:1.2rem"><label for="rsUrl">Web app URL</label>
+          <input id="rsUrl" type="url" placeholder="https://script.google.com/macros/s/…/exec">
+          <span class="help">It ends in <code>/exec</code>.</span></div>
+        <p class="err" id="rsSetupErr" role="alert"></p>
+        <div style="display:flex;flex-wrap:wrap;gap:.6rem">
+          <button class="btn btn-p" type="button" id="rsConnect"><i class="fa fa-link"></i> Connect</button>
+          <button class="btn btn-g" type="button" id="rsCancel" hidden>Cancel</button>
+          <button class="btn btn-g" type="button" id="rsNewKey"><i class="fa fa-key"></i> New secret</button>
+        </div>
+        <div class="note warn" style="margin-top:1.2rem"><i class="fa fa-shield-halved"></i><div><b>Keep the spreadsheet private.</b> It holds people’s names and phone numbers: leave its sharing on <b>Restricted</b> and never use <b>Publish to the web</b>. The script only reads, and only answers when given the secret. The Web app URL and secret are kept in your database, where only admins can see them. If you think they’ve leaked, click <b>New secret</b>, paste the new code into Apps Script, and deploy again (<b>Deploy → Manage deployments → Edit → New version</b>).</div></div>
+      </div>
+
+      <!-- Connected: the responses -->
+      <div id="rsView" hidden>
+        <p class="sub" style="margin-bottom:.8rem"><i class="fa fa-table" style="color:#1e8e3e"></i> <b id="rsTitle"></b> <span class="help" id="rsUpdated"></span></p>
+        <div class="rs-tabs" id="rsTabs" role="tablist"></div>
+        <div class="rs-tools"><input type="search" id="rsSearch" placeholder="Search names, phone numbers, anything…" aria-label="Search responses"><span class="help" id="rsCount"></span></div>
+        <div class="rs-wrap"><table class="rs-table" id="rsTable"></table></div>
+        <button class="btn btn-g" type="button" id="rsMore" style="margin-top:.8rem" hidden>Show more</button>
+        <p class="err" id="rsErr" role="alert"></p>
+      </div>
     </div>
 
     <div data-panel="account" hidden>
@@ -272,6 +321,79 @@ code{background:var(--purple-50);padding:.1rem .35rem;border-radius:5px;font-siz
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<!-- The Apps Script for the response spreadsheet (same as google-apps-script/children-home-responses.gs) -->
+<script type="text/plain" id="gasCode">/* ════════════════════════════════════════════════════════════════════════════
+   Children Home admin page: read-only link to THIS spreadsheet
+   (the one that collects your Google Form responses, one tab per form)
+
+   How to use (full steps in ADMIN-GUIDE.md):
+     1. In the spreadsheet: Extensions → Apps Script. Delete what's there and paste this file.
+        Easiest: copy it from admin.html → Form responses, where your secret is already filled in.
+     2. Save, then Deploy → New deployment → Select type: Web app
+          Execute as: Me      Who has access: Anyone
+        Deploy, allow the permissions Google asks for, and copy the Web app URL.
+     3. Paste the Web app URL into admin.html → Form responses → Connect.
+
+   What it does: it only READS this spreadsheet, and only answers requests that carry
+   the secret below. It can't change or delete anything, and it can't see other files.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+const SECRET = 'PASTE-YOUR-SECRET-HERE';   // the secret from admin.html → Form responses
+const MAX_ROWS = 2000;                     // newest responses sent per tab
+
+function doPost(e) {
+  let req = {};
+  try { req = JSON.parse((e && e.postData && e.postData.contents) || '{}'); }
+  catch (err) { return reply({ ok: false, error: 'Bad request.' }); }
+
+  if (!SECRET || SECRET.indexOf('PASTE') === 0 || SECRET.length < 24) {
+    return reply({ ok: false, error: 'The script has no secret yet. Paste the code from the admin page (it has your secret in it) and deploy again.' });
+  }
+  if (!sameText(String(req.key || ''), SECRET)) return reply({ ok: false, error: 'Wrong secret key. Paste the latest code from the admin page and deploy a new version.' });
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const tabs = ss.getSheets().filter(function (sh) { return !sh.isSheetHidden(); });
+
+  if (req.action === 'list') {
+    return reply({
+      ok: true, title: ss.getName(), url: ss.getUrl(),
+      tabs: tabs.map(function (sh) { return { name: sh.getName(), count: Math.max(0, sh.getLastRow() - 1) }; })
+    });
+  }
+
+  if (req.action === 'rows') {
+    const sh = tabs.filter(function (s) { return s.getName() === req.tab; })[0];
+    if (!sh) return reply({ ok: false, error: 'There is no tab called "' + req.tab + '". Click Refresh.' });
+    const lastRow = sh.getLastRow(), lastCol = sh.getLastColumn();
+    const link = ss.getUrl() + '#gid=' + sh.getSheetId();
+    if (lastRow < 1 || lastCol < 1) return reply({ ok: true, tab: sh.getName(), header: [], rows: [], total: 0, url: link });
+    const header = sh.getRange(1, 1, 1, lastCol).getDisplayValues()[0];
+    const total = Math.max(0, lastRow - 1), take = Math.min(total, MAX_ROWS);
+    const rows = take ? sh.getRange(lastRow - take + 1, 1, take, lastCol).getDisplayValues().reverse() : [];   // newest first
+    return reply({ ok: true, tab: sh.getName(), header: header, rows: rows, total: total, url: link });
+  }
+
+  return reply({ ok: false, error: 'Unknown request.' });
+}
+
+// Opening the Web app URL in a browser just shows that the link is running (no data).
+function doGet() {
+  return reply({ ok: true, message: 'The Children Home responses link is running. Use it from admin.html.' });
+}
+
+function reply(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+// compares the secret without giving away how much of it matched
+function sameText(a, b) {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+</script>
+
 <script src="supabase-config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
@@ -331,7 +453,7 @@ code{background:var(--purple-50);padding:.1rem .35rem;border-radius:5px;font-siz
     const { data: ok, error } = await sb.rpc('ch_is_admin');
     if (error || !ok) { $('dEmail').textContent = session.user.email || ''; show('vDenied'); return; }
     show('vApp');
-    if (!started) { started = true; loadPrograms(); loadMoments(); loadSheets(); }
+    if (!started) { started = true; loadPrograms(); loadMoments(); }
   }
   sb.auth.getSession().then(({ data }) => route(data.session));
   sb.auth.onAuthStateChange((ev, session) => { if (ev === 'SIGNED_IN' || ev === 'SIGNED_OUT') route(session); });
@@ -351,6 +473,7 @@ code{background:var(--purple-50);padding:.1rem .35rem;border-radius:5px;font-siz
   document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
     document.querySelectorAll('.tab').forEach(x => { x.classList.toggle('on', x === t); x.setAttribute('aria-selected', x === t); });
     document.querySelectorAll('[data-panel]').forEach(p => { p.hidden = p.dataset.panel !== t.dataset.tab; });
+    if (t.dataset.tab === 'sheets') initResponses();
   }));
   document.querySelectorAll('dialog [data-close]').forEach(b => b.addEventListener('click', () => b.closest('dialog').close()));
 
@@ -496,57 +619,102 @@ code{background:var(--purple-50);padding:.1rem .35rem;border-radius:5px;font-siz
     await removeFiles([mEdit.image_url, ...(mEdit.photos || []).flatMap(p => [p.src, p.thumb])]); $('dlgMoment').close(); toast('Moment deleted.'); loadMoments();
   });
 
-  /* ── Form responses (Google Sheets) ────────────────────────────────────── */
-  let sheets = [];
-  const embedUrl = u => { const m = String(u || '').match(/^https:\/\/docs\.google\.com\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/); return m ? 'https://docs.google.com/spreadsheets/d/' + m[1] + '/edit?rm=minimal' : null; };
-  async function loadSheets() {
-    const { data, error } = await sb.from('ch_sheets').select('*').order('sort_order', { ascending: true }).order('created_at', { ascending: true });
-    if (error) { $('sheetList').innerHTML = '<p class="err">' + esc(friendly(error)) + '</p>'; return; }
-    sheets = data; renderSheets();
+  /* ── Form responses: read from the Google Sheet through its Apps Script ───── */
+  const RS = { url: '', secret: '', tabs: [], tab: null, rows: [], header: [], total: 0, shown: 0, started: false, timer: null };
+  const seenKey = t => 'ch_seen:' + t;
+  const okScriptUrl = u => /^https:\/\/script\.google\.com\/(macros|a\/macros\/[^/]+)\/s\/[\w-]+\/exec$/.test(u);
+  function newSecret() { const a = new Uint8Array(32); crypto.getRandomValues(a); return btoa(String.fromCharCode.apply(null, a)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+  async function saveSetting(k, v) { const { error } = await sb.from('ch_settings').upsert({ key: k, value: v }); if (error) throw error; }
+  async function callScript(body, url) {
+    let r, t;
+    try { r = await fetch(url || RS.url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({ key: RS.secret }, body)) }); t = await r.text(); }
+    catch (e) { throw new Error('Can’t reach the script. Check the Web app URL, and that “Who has access” is set to Anyone.'); }
+    let j; try { j = JSON.parse(t); } catch (e) { throw new Error('The script didn’t answer. Check that you copied the Web app URL (ending in /exec) and that “Who has access” is set to Anyone.'); }
+    if (!j.ok) throw new Error(j.error || 'The script answered with an error.');
+    return j;
   }
-  function renderSheets() {
-    $('sheetList').innerHTML = sheets.length ? sheets.map(s => {
-      const ok = embedUrl(s.url);
-      return '<div class="sheet" data-id="' + s.id + '"><div class="sheet-top"><b><i class="fa fa-table" style="color:#1e8e3e"></i> ' + esc(s.name) + '</b>'
-        + (s.url ? '<a class="btn btn-p btn-s" href="' + esc(s.url) + '" target="_blank" rel="noopener"><i class="fa fa-arrow-up-right-from-square"></i> Open in Google Sheets</a>' : '<span class="help">No sheet link yet</span>')
-        + (ok ? '<button class="btn btn-g btn-s" type="button" data-view>Show here</button>' : '')
-        + '<button class="btn btn-g btn-s" type="button" data-editsheet><i class="fa fa-pen"></i> Edit</button></div>'
-        + '<div class="sheet-edit" hidden><input type="text" value="' + esc(s.name) + '" aria-label="Name" data-n><input type="url" value="' + esc(s.url || '') + '" placeholder="https://docs.google.com/spreadsheets/d/…" aria-label="Sheet link" data-u>'
-        + '<div style="display:flex;gap:.4rem"><button class="btn btn-p btn-s" type="button" data-savesheet>Save</button><button class="btn btn-d btn-s" type="button" data-delsheet aria-label="Remove"><i class="fa fa-trash"></i></button></div></div>'
-        + '<div class="frame"></div></div>';
-    }).join('') : '<div class="empty">No sheets yet. Click <b>Add a sheet</b>.</div>';
+  async function initResponses() {
+    if (RS.started) return; RS.started = true;
+    const { data, error } = await sb.from('ch_settings').select('key,value').in('key', ['responses_url', 'responses_secret']);
+    $('rsLoading').hidden = true;
+    if (error) { $('rsErr').textContent = friendly(error); $('rsView').hidden = false; return; }
+    (data || []).forEach(r => { if (r.key === 'responses_url') RS.url = r.value || ''; if (r.key === 'responses_secret') RS.secret = r.value || ''; });
+    if (!RS.secret) { RS.secret = newSecret(); try { await saveSetting('responses_secret', RS.secret); } catch (e) { toast(friendly(e), true); } }
+    if (RS.url) showViewer(); else showSetup();
   }
-  $('sheetList').addEventListener('click', async e => {
-    const box = e.target.closest('.sheet'); if (!box) return;
-    const s = sheets.find(x => x.id === box.dataset.id);
-    if (e.target.closest('[data-view]')) {
-      const fr = box.querySelector('.frame'), b = e.target.closest('[data-view]');
-      if (fr.innerHTML) { fr.innerHTML = ''; b.textContent = 'Show here'; return; }
-      fr.innerHTML = '<iframe src="' + esc(embedUrl(s.url)) + '" title="' + esc(s.name) + ' responses" loading="lazy" referrerpolicy="no-referrer"></iframe><p class="help" style="margin-top:.4rem">Blank, or asking you to sign in? Use <b>Open in Google Sheets</b> instead.</p>';
-      b.textContent = 'Hide';
-    }
-    if (e.target.closest('[data-editsheet]')) { const ed = box.querySelector('.sheet-edit'); ed.hidden = !ed.hidden; if (!ed.hidden) ed.querySelector('[data-u]').focus(); }
-    if (e.target.closest('[data-savesheet]')) {
-      const name = box.querySelector('[data-n]').value.trim(), link = box.querySelector('[data-u]').value.trim();
-      if (!name) { toast('Please give the sheet a name.', true); return; }
-      if (link && !/^https:\/\/docs\.google\.com\/spreadsheets\/d\//.test(link)) { toast('That doesn’t look like a Google Sheets link (it should start with https://docs.google.com/spreadsheets/d/).', true); return; }
-      const { error } = await sb.from('ch_sheets').update({ name, url: link || null }).eq('id', s.id);
-      if (error) { toast(friendly(error), true); return; }
-      toast('Sheet saved.'); loadSheets();
-    }
-    if (e.target.closest('[data-delsheet]')) {
-      if (!confirm('Remove “' + s.name + '” from this list? (The Google Sheet itself isn’t deleted.)')) return;
-      const { error } = await sb.from('ch_sheets').delete().eq('id', s.id);
-      if (error) { toast(friendly(error), true); return; }
-      toast('Removed from the list.'); loadSheets();
-    }
+  function showSetup() {
+    $('rsSetup').hidden = false; $('rsView').hidden = true; $('rsActs').hidden = true; $('rsSetupErr').textContent = '';
+    $('rsUrl').value = RS.url; $('rsCancel').hidden = !RS.url;
+    $('rsCode').textContent = $('gasCode').textContent.trim().replace("const SECRET = 'PASTE-YOUR-SECRET-HERE';", "const SECRET = '" + RS.secret + "';");
+  }
+  function showViewer() { $('rsSetup').hidden = true; $('rsView').hidden = false; $('rsActs').hidden = false; loadTabs(true); startAuto(); }
+  $('rsCopy').addEventListener('click', async () => {
+    const txt = $('rsCode').textContent;
+    try { await navigator.clipboard.writeText(txt); toast('Code copied. Paste it into Apps Script.'); }
+    catch (e) { const r = document.createRange(); r.selectNodeContents($('rsCode')); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); toast('Press Ctrl+C (or ⌘+C) to copy the selected code.'); }
   });
-  $('addSheet').addEventListener('click', async () => {
-    const { error } = await sb.from('ch_sheets').insert({ name: 'New sheet', sort_order: sheets.length + 1 });
-    if (error) { toast(friendly(error), true); return; }
-    await loadSheets();
-    const last = $('sheetList').querySelector('.sheet:last-child'); if (last) { last.querySelector('.sheet-edit').hidden = false; last.querySelector('[data-n]').select(); }
+  $('rsNewKey').addEventListener('click', async () => {
+    if (!confirm('Make a new secret? The old one stops working, so you’ll need to paste the new code into Apps Script and deploy again.')) return;
+    RS.secret = newSecret();
+    try { await saveSetting('responses_secret', RS.secret); showSetup(); toast('New secret made. Copy the code again.'); } catch (e) { toast(friendly(e), true); }
   });
+  $('rsConnect').addEventListener('click', async () => {
+    const u = $('rsUrl').value.trim(); $('rsSetupErr').textContent = '';
+    if (!okScriptUrl(u)) { $('rsSetupErr').textContent = 'That doesn’t look like a Web app URL. It starts with https://script.google.com/ and ends in /exec.'; $('rsUrl').focus(); return; }
+    const btn = $('rsConnect'); busy(btn, true);
+    try { await callScript({ action: 'list' }, u); await saveSetting('responses_url', u); RS.url = u; toast('Connected to your Google Sheet.'); showViewer(); }
+    catch (e) { $('rsSetupErr').textContent = friendly(e); }
+    busy(btn, false);
+  });
+  $('rsCancel').addEventListener('click', showViewer);
+  $('rsChange').addEventListener('click', () => { stopAuto(); showSetup(); });
+  $('rsRefresh').addEventListener('click', () => loadTabs(true));
+
+  async function loadTabs(reloadRows) {
+    $('rsErr').textContent = '';
+    let j; try { j = await callScript({ action: 'list' }); } catch (e) { $('rsErr').textContent = friendly(e); return; }
+    $('rsTitle').textContent = j.title; $('rsOpen').href = j.url;
+    $('rsUpdated').textContent = '· updated ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const old = RS.tabs; RS.tabs = j.tabs || [];
+    RS.tabs.forEach(t => { if (localStorage.getItem(seenKey(t.name)) === null) localStorage.setItem(seenKey(t.name), t.count); });
+    if (!RS.tabs.length) { $('rsTabs').innerHTML = ''; $('rsTable').innerHTML = '<tr><td class="rs-empty">This spreadsheet has no tabs yet.</td></tr>'; return; }
+    if (!RS.tab || !RS.tabs.some(t => t.name === RS.tab)) RS.tab = RS.tabs[0].name;
+    renderChips();
+    const before = old.find(t => t.name === RS.tab), now = RS.tabs.find(t => t.name === RS.tab);
+    if (reloadRows || !before || before.count !== now.count) loadRows();
+  }
+  function renderChips() {
+    $('rsTabs').innerHTML = RS.tabs.map(t => {
+      const fresh = Math.max(0, t.count - (+localStorage.getItem(seenKey(t.name)) || 0));
+      return '<button class="rs-chip' + (t.name === RS.tab ? ' on' : '') + '" type="button" role="tab" aria-selected="' + (t.name === RS.tab) + '" data-tab="' + esc(t.name) + '">' + esc(t.name)
+        + ' <span class="n">' + t.count.toLocaleString() + '</span>' + (fresh && t.name !== RS.tab ? '<span class="new">' + fresh + ' new</span>' : '') + '</button>';
+    }).join('');
+  }
+  $('rsTabs').addEventListener('click', e => { const c = e.target.closest('.rs-chip'); if (!c || c.dataset.tab === RS.tab) return; RS.tab = c.dataset.tab; $('rsSearch').value = ''; renderChips(); loadRows(); });
+  async function loadRows() {
+    $('rsErr').textContent = ''; $('rsTable').innerHTML = '<tr><td class="rs-empty"><i class="fa fa-spinner fa-spin"></i> Loading responses…</td></tr>'; $('rsMore').hidden = true;
+    let j; try { j = await callScript({ action: 'rows', tab: RS.tab }); } catch (e) { $('rsTable').innerHTML = ''; $('rsErr').textContent = friendly(e); return; }
+    const seen = +localStorage.getItem(seenKey(RS.tab)) || 0;
+    RS.header = j.header || []; RS.rows = j.rows || []; RS.total = j.total || 0; RS.fresh = Math.max(0, RS.total - seen);
+    localStorage.setItem(seenKey(RS.tab), RS.total); renderChips();
+    if (j.url) $('rsOpen').href = j.url;
+    RS.shown = 50; renderRows();
+  }
+  function renderRows() {
+    const q = $('rsSearch').value.trim().toLowerCase();
+    const list = q ? RS.rows.filter(r => r.some(c => String(c).toLowerCase().includes(q))) : RS.rows;
+    if (!RS.header.length) { $('rsTable').innerHTML = '<tr><td class="rs-empty">No responses in this tab yet.</td></tr>'; $('rsCount').textContent = ''; return; }
+    const head = '<thead><tr>' + RS.header.map(h => '<th scope="col">' + esc(h) + '</th>').join('') + '</tr></thead>';
+    const body = list.slice(0, RS.shown).map(r => '<tr' + (!q && RS.rows.indexOf(r) < RS.fresh ? ' class="fresh"' : '') + '>' + RS.header.map((_, i) => '<td>' + esc(r[i]) + '</td>').join('') + '</tr>').join('');
+    $('rsTable').innerHTML = head + '<tbody>' + (body || '<tr><td class="rs-empty" colspan="' + RS.header.length + '">' + (RS.rows.length ? 'No responses match “' + esc(q) + '”.' : 'No responses in this tab yet.') + '</td></tr>') + '</tbody>';
+    $('rsCount').textContent = q ? list.length + ' of ' + RS.total.toLocaleString() + ' responses match' : RS.total.toLocaleString() + ' responses' + (RS.total > RS.rows.length ? ' (showing the newest ' + RS.rows.length.toLocaleString() + ')' : '') + (RS.fresh ? ' · ' + RS.fresh + ' new, highlighted' : '');
+    $('rsMore').hidden = list.length <= RS.shown;
+  }
+  $('rsSearch').addEventListener('input', () => { RS.shown = 50; renderRows(); });
+  $('rsMore').addEventListener('click', () => { RS.shown += 50; renderRows(); });
+  /* while the Form responses tab is open, check for new answers every 2 minutes */
+  function startAuto() { stopAuto(); RS.timer = setInterval(() => { if (!document.hidden && !$('rsView').hidden && !document.querySelector('[data-panel="sheets"]').hidden) loadTabs(false); }, 120000); }
+  function stopAuto() { if (RS.timer) clearInterval(RS.timer); RS.timer = null; }
 
   /* an error message disappears as soon as you start fixing it */
   $('programForm').addEventListener('input', () => { $('p_err').textContent = ''; });

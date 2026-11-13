@@ -1,6 +1,6 @@
 # Children Home website: admin page and database
 
-The admin page (`admin.html`) lets staff add **Programs** (Home page, above Credentials) and **Moments** (Moments page), and keeps the **Google Sheets** with your Google Form responses in one place.
+The admin page (`admin.html`) lets staff add **Programs** (Home page, above Credentials) and **Moments** (Moments page), and shows the **responses to your Google Forms**, read straight from your Google Sheet.
 
 Everything is stored in a Supabase database. Until it's connected, the website works exactly as before.
 
@@ -12,6 +12,7 @@ Everything is stored in a Supabase database. Until it's connected, the website w
 | `supabase-config.js` | Your Supabase Project URL and publishable key (the only file you edit to connect) |
 | `assets/js/ch-data.js` | Shows published programs and moments on the website |
 | `supabase/children-home-setup.sql` | Creates the database tables, picture folder and security rules |
+| `google-apps-script/children-home-responses.gs` | The small read-only script that lets the admin page read your response spreadsheet (copy it from the admin page, where your secret is already filled in) |
 
 ## One-time setup (about 15 minutes)
 
@@ -73,14 +74,23 @@ Open `your-website/admin.html` and sign in with the email and password from step
 - **Extra photos** appear as small pictures under "Read more"; visitors tap one to see it big.
 - Moments added here appear **above** the three older moments, which stay as they are.
 
-### Form responses
-1. Open a Google Form → **Responses** tab → **Link to Sheets** (or **View in Sheets**).
-2. Copy the sheet's address from the browser.
-3. In the admin page, click **Edit** next to the form's name, paste the link, and **Save**.
+### Form responses (your Google Sheet)
+Connect once (about 5 minutes); after that, every form's responses show in the admin page.
 
-**Open in Google Sheets** opens the responses in a new tab. **Show here** previews the sheet inside the admin page; this only works when you're signed in to Google in the same browser with access to that sheet.
+1. **Use one spreadsheet for all forms.** In each Google Form: **Responses** tab → **⋮** → **Select response destination** → **Select existing spreadsheet** → choose the same spreadsheet each time. Each form gets its own tab, and existing answers are copied in. Rename the tabs to the form names (for example "Volunteer", "Seek Help").
+2. In the admin page, open **Form responses** and click **Copy code**. The code already contains your secret.
+3. In the spreadsheet: **Extensions → Apps Script**. Delete what's there, paste the code, and click **Save**.
+4. **Deploy → New deployment** → **Select type** (⚙) → **Web app**. Set **Execute as: Me** and **Who has access: Anyone**. Click **Deploy**, allow the permissions Google asks for, and copy the **Web app URL** (it ends in `/exec`).
+5. Back in the admin page, paste the URL and click **Connect**.
 
-**Keep the sheets private.** They hold people's names and phone numbers. Leave sharing on **Restricted** (your team only) and never use **Publish to the web**.
+Then you'll see one tab per form with the number of responses, newest first. A red **"new"** badge shows how many came in since you last looked, and new rows are highlighted. Use the search box to find a name or phone number, **Refresh** to check now (it also checks by itself every 2 minutes while the tab is open), and **Open in Google Sheets** to work in the sheet itself.
+
+**Keep it private.** The spreadsheet holds people's names and phone numbers:
+- Leave its sharing on **Restricted** and never use **Publish to the web**.
+- The script can only **read** that one spreadsheet, and only answers when it's given the secret. The Web app URL and secret are stored in your database, where only admins can see them.
+- If you think they've leaked: click **Connection → New secret**, copy the code again, paste it into Apps Script, and deploy a new version (**Deploy → Manage deployments → ✏ Edit → Version: New version → Deploy**).
+
+If the admin page says **"The script didn't answer"**: check that you copied the **Web app URL** (not the spreadsheet's address) and that **Who has access** is **Anyone**. On some Google Workspace accounts, "Anyone" isn't allowed; ask your Workspace admin or use a regular Google account to own the spreadsheet.
 
 ### Account
 Change your password. If you forget it, another admin (or anyone with the Supabase login) can set a new one under **Authentication → Users**.

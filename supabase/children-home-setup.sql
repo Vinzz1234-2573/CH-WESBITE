@@ -9,7 +9,7 @@
 --  Who can do what:
 --    • Visitors (the website):  read PUBLISHED programs and moments, view pictures.
 --    • Admins (signed in, listed in ch_admins):  add, edit, delete everything,
---      upload pictures, and see the Google Sheet links.
+--      upload pictures, and use the Google Sheet connection (Form responses).
 -- ════════════════════════════════════════════════════════════════════════════
 
 create extension if not exists pgcrypto;   -- for gen_random_uuid()
@@ -77,29 +77,21 @@ create table if not exists public.ch_moments (
   updated_at  timestamptz not null default now()
 );
 
--- ── Google Sheets with the Google Form responses (admins only) ─────────────
-create table if not exists public.ch_sheets (
-  id         uuid primary key default gen_random_uuid(),
-  name       text not null,
-  url        text,
-  sort_order integer not null default 0,
-  created_at timestamptz not null default now(),
+-- ── Settings (admins only): the Google Sheet connection for Form responses ──
+--    responses_url    = the Apps Script web app address
+--    responses_secret = the secret key the script checks
+create table if not exists public.ch_settings (
+  key        text primary key,
+  value      text,
   updated_at timestamptz not null default now()
 );
-
--- the six forms the website already links to (fill in each sheet link in admin.html)
-insert into public.ch_sheets (name, sort_order)
-select v.name, v.ord
-from (values ('Seek Help', 1), ('Volunteer', 2), ('Sponsor a Child', 3),
-             ('Company partnership (CSR)', 4), ('Give Hope', 5), ('Enquiry', 6)) as v(name, ord)
-where not exists (select 1 from public.ch_sheets);
 
 drop trigger if exists ch_programs_touch on public.ch_programs;
 create trigger ch_programs_touch before update on public.ch_programs for each row execute function public.ch_touch();
 drop trigger if exists ch_moments_touch on public.ch_moments;
 create trigger ch_moments_touch before update on public.ch_moments for each row execute function public.ch_touch();
-drop trigger if exists ch_sheets_touch on public.ch_sheets;
-create trigger ch_sheets_touch before update on public.ch_sheets for each row execute function public.ch_touch();
+drop trigger if exists ch_settings_touch on public.ch_settings;
+create trigger ch_settings_touch before update on public.ch_settings for each row execute function public.ch_touch();
 
 create index if not exists ch_programs_list on public.ch_programs (published, sort_order, created_at desc);
 create index if not exists ch_moments_list  on public.ch_moments  (published, moment_date desc, created_at desc);
@@ -108,11 +100,11 @@ create index if not exists ch_moments_list  on public.ch_moments  (published, mo
 alter table public.ch_admins   enable row level security;
 alter table public.ch_programs enable row level security;
 alter table public.ch_moments  enable row level security;
-alter table public.ch_sheets   enable row level security;
+alter table public.ch_settings enable row level security;
 
 grant select on public.ch_programs, public.ch_moments to anon, authenticated;
 grant insert, update, delete on public.ch_programs, public.ch_moments to authenticated;
-grant select, insert, update, delete on public.ch_sheets to authenticated;
+grant select, insert, update, delete on public.ch_settings to authenticated;
 grant select on public.ch_admins to authenticated;
 
 drop policy if exists "ch admins see the admin list" on public.ch_admins;
@@ -145,8 +137,8 @@ drop policy if exists "ch admins delete moments" on public.ch_moments;
 create policy "ch admins delete moments" on public.ch_moments
   for delete to authenticated using (public.ch_is_admin());
 
-drop policy if exists "ch admins manage sheets" on public.ch_sheets;
-create policy "ch admins manage sheets" on public.ch_sheets
+drop policy if exists "ch admins manage settings" on public.ch_settings;
+create policy "ch admins manage settings" on public.ch_settings
   for all to authenticated using (public.ch_is_admin()) with check (public.ch_is_admin());
 
 -- ── Picture folder: "ch-media" (pictures are public so the website can show them) ──
