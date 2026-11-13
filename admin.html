@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin · Amitabha Foundation Children Home</title>
+<link rel="icon" href="assets/af-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+  --purple:#6a42b0;--purple-d:#51318a;--purple-50:#f5f0fb;--purple-100:#ebe2f7;
+  --red:#ab1a1f;--ink:#1f3034;--ink-2:#4b5b5f;--ink-3:#7a888b;--line:#e7e2ee;--bg:#f7f5fa;--ok:#1d7a4f;--warn:#9a6a00;
+  --display:'Fraunces',Georgia,serif;--body:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);color:var(--ink);background:var(--bg);line-height:1.55;min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--purple)}
+[hidden]{display:none!important}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:1rem;padding:.8rem clamp(1rem,3vw,2rem);background:#fff;border-bottom:1px solid var(--line)}
+.top img{height:42px;width:auto}
+.top .t{font-family:var(--display);font-weight:600;font-size:1.15rem;color:var(--purple);padding-left:1rem;border-left:2px solid #f2a93b}
+.top .who{margin-left:auto;display:flex;align-items:center;gap:.8rem;font-size:.86rem;color:var(--ink-2)}
+@media(max-width:640px){.top{gap:.6rem;padding:.6rem .9rem}.top img{height:32px}.top .t{font-size:.95rem;padding-left:.6rem}#whoEmail{display:none}}
+main{max-width:1100px;margin:0 auto;padding:clamp(1.2rem,3vw,2.4rem) clamp(1rem,3vw,2rem) 4rem}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:clamp(1.3rem,3vw,2rem);box-shadow:0 6px 24px rgba(40,20,80,.05)}
+.narrow{max-width:460px;margin:clamp(1rem,6vh,4rem) auto 0}
+h1{font-family:var(--display);font-weight:600;font-size:1.7rem;line-height:1.2;margin-bottom:.4rem}
+h2{font-family:var(--display);font-weight:600;font-size:1.45rem;line-height:1.2}
+.sub{color:var(--ink-2);font-size:.93rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.65rem 1.2rem;border-radius:999px;border:1px solid transparent;font-weight:700;font-size:.9rem;cursor:pointer;text-decoration:none;transition:background .2s,border-color .2s,color .2s,transform .2s}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{opacity:.6;cursor:wait}
+.btn-p{background:var(--purple);color:#fff}.btn-p:hover{background:var(--purple-d)}
+.btn-g{background:#fff;border-color:var(--line);color:var(--ink)}.btn-g:hover{border-color:var(--purple);color:var(--purple)}
+.btn-d{background:#fff;border-color:#f0c9cb;color:var(--red)}.btn-d:hover{background:var(--red);color:#fff}
+.btn-s{padding:.45rem .85rem;font-size:.82rem}
+.field{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1rem}
+.field>label,.lbl{font-size:.82rem;font-weight:700;color:var(--ink)}
+.field input[type=text],.field input[type=email],.field input[type=password],.field input[type=url],.field input[type=number],.field input[type=date],.field select,.field textarea{width:100%;padding:.68rem .85rem;border:1px solid #ddd5e8;border-radius:11px;background:#fff;transition:border-color .2s,box-shadow .2s}
+.field textarea{resize:vertical;min-height:84px;line-height:1.55}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 3px rgba(106,66,176,.15)}
+.help{font-size:.78rem;color:var(--ink-3);line-height:1.5}
+.note{display:flex;gap:.6rem;padding:.8rem 1rem;border-radius:12px;background:var(--purple-50);border:1px solid var(--purple-100);font-size:.84rem;color:var(--ink-2);line-height:1.55}
+.note i{color:var(--purple);margin-top:.2rem}
+.note.warn{background:#fff8e6;border-color:#f3dfa6}.note.warn i{color:var(--warn)}
+.note.corp{background:#fff4f4;border-color:#f3d2d4}.note.corp i{color:var(--red)}
+.err{color:var(--red);font-size:.86rem;font-weight:600;min-height:1.2em}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem}
+@media(max-width:700px){.two{grid-template-columns:1fr}}
+.tabs{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.4rem}
+.tab{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.05rem;border-radius:999px;border:1px solid var(--line);background:#fff;font-weight:700;font-size:.88rem;cursor:pointer;color:var(--ink-2)}
+.tab.on{background:var(--purple);border-color:var(--purple);color:#fff}
+.sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:1.1rem}
+.list{display:flex;flex-direction:column;gap:.7rem}
+.row{display:grid;grid-template-columns:88px 1fr auto;gap:1rem;align-items:center;padding:.75rem;background:#fff;border:1px solid var(--line);border-radius:14px}
+.row .th{width:88px;height:62px;border-radius:9px;background:var(--purple-50) center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:var(--purple);font-size:1.3rem}
+.row b{display:block;font-size:.98rem;line-height:1.3}
+.row .meta{display:flex;flex-wrap:wrap;gap:.4rem .7rem;align-items:center;margin-top:.3rem;font-size:.78rem;color:var(--ink-3)}
+.row .acts{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:flex-end}
+@media(max-width:640px){.row{grid-template-columns:64px 1fr}.row .th{width:64px;height:48px}.row .acts{grid-column:1/-1;justify-content:flex-start}}
+.badge{display:inline-flex;align-items:center;gap:.3rem;padding:.18rem .55rem;border-radius:99px;font-size:.72rem;font-weight:800}
+.badge.pub{background:#e3f4ea;color:var(--ok)}.badge.draft{background:#f1eef5;color:var(--ink-2)}.badge.appeal{background:#fbe9ea;color:var(--red)}
+.empty{padding:2rem;text-align:center;color:var(--ink-3);border:2px dashed var(--line);border-radius:16px;background:#fff}
+dialog{margin:auto;border:0;border-radius:20px;padding:0;width:min(860px,96vw);max-height:92vh;box-shadow:0 40px 100px rgba(0,0,0,.35);color:var(--ink)}
+dialog::backdrop{background:rgba(20,10,40,.55)}
+.dlg-h{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.4rem;background:#fff;border-bottom:1px solid var(--line)}
+.dlg-b{padding:1.3rem 1.4rem}
+.dlg-f{position:sticky;bottom:0;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;padding:.9rem 1.4rem;background:#fff;border-top:1px solid var(--line)}
+.dlg-f .sp{flex:1}
+.xbtn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer}
+.pic{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+.pic .pv{width:200px;aspect-ratio:16/10;border-radius:12px;background:var(--purple-50) center/cover no-repeat;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink-3);font-size:.8rem;text-align:center;padding:.5rem}
+.photos{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.4rem}
+.photos .ph{position:relative;width:96px;height:72px;border-radius:9px;background:var(--purple-50) center/cover no-repeat;border:1px solid var(--line)}
+.photos .ph button{position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;border:0;background:var(--red);color:#fff;font-size:.7rem;cursor:pointer}
+.check{display:flex;align-items:center;gap:.6rem;font-weight:600;font-size:.9rem;cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--purple)}
+.sheet{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1rem}
+.sheet-top{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem}
+.sheet-top b{flex:1;min-width:160px}
+.sheet-edit{display:grid;grid-template-columns:1fr 2fr auto;gap:.6rem;margin-top:.8rem}
+@media(max-width:700px){.sheet-edit{grid-template-columns:1fr}}
+.sheet-edit input{padding:.55rem .75rem;border:1px solid #ddd5e8;border-radius:10px;width:100%}
+.sheet iframe{display:block;width:100%;height:560px;margin-top:.8rem;border:1px solid var(--line);border-radius:12px;background:#fff}
+.toast{position:fixed;left:50%;bottom:1.4rem;transform:translateX(-50%) translateY(20px);opacity:0;z-index:100;padding:.75rem 1.2rem;border-radius:12px;background:var(--ink);color:#fff;font-size:.9rem;font-weight:600;box-shadow:0 12px 30px rgba(0,0,0,.25);transition:opacity .25s,transform .25s;pointer-events:none;max-width:92vw}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.toast.bad{background:var(--red)}
+ol.steps{padding-left:1.2rem;display:flex;flex-direction:column;gap:.5rem;font-size:.92rem;color:var(--ink-2);margin:1rem 0}
+code{background:var(--purple-50);padding:.1rem .35rem;border-radius:5px;font-size:.85em}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <img src="assets/af-logo.png" alt="Amitabha Foundation">
+  <span class="t">Children Home · Admin</span>
+  <div class="who" id="who" hidden><span id="whoEmail"></span><button class="btn btn-g btn-s" id="signOut" type="button"><i class="fa fa-right-from-bracket"></i> Sign out</button></div>
+</header>
+
+<main>
+  <!-- Not connected yet -->
+  <section class="card narrow" id="vSetup" hidden>
+    <h1>Connect the database</h1>
+    <p class="sub">This page needs your Supabase details before anyone can sign in.</p>
+    <ol class="steps">
+      <li>In Supabase, run <code>supabase/children-home-setup.sql</code> (SQL Editor → New query → paste → Run).</li>
+      <li>Open <code>supabase-config.js</code> and paste your Project URL and publishable key.</li>
+      <li>Upload the file to GitHub and reload this page.</li>
+    </ol>
+    <p class="help">The full steps are in <code>ADMIN-GUIDE.md</code>.</p>
+  </section>
+
+  <!-- Sign in -->
+  <section class="card narrow" id="vLogin" hidden>
+    <h1>Staff sign in</h1>
+    <p class="sub" style="margin-bottom:1.2rem">For Children Home admins only.</p>
+    <form id="loginForm" novalidate>
+      <div class="field"><label for="lEmail">Email</label><input id="lEmail" type="email" autocomplete="username" required></div>
+      <div class="field"><label for="lPass">Password</label><input id="lPass" type="password" autocomplete="current-password" required></div>
+      <p class="err" id="lErr" role="alert"></p>
+      <button class="btn btn-p" type="submit" id="lBtn" style="width:100%"><i class="fa fa-lock"></i> Sign in</button>
+    </form>
+    <p class="help" style="margin-top:1rem">Forgot your password? Ask another admin, or reset it in Supabase under Authentication → Users.</p>
+  </section>
+
+  <!-- Signed in, but not on the admin list -->
+  <section class="card narrow" id="vDenied" hidden>
+    <h1>No admin access</h1>
+    <p class="sub">You’re signed in as <b id="dEmail"></b>, but this account isn’t on the admin list. Ask an existing admin to add you (see ADMIN-GUIDE.md, “Add another admin”).</p>
+  </section>
+
+  <!-- The dashboard -->
+  <section id="vApp" hidden>
+    <nav class="tabs" role="tablist">
+      <button class="tab on" type="button" data-tab="programs" role="tab" aria-selected="true"><i class="fa fa-hands-holding-child"></i> Programs</button>
+      <button class="tab" type="button" data-tab="moments" role="tab" aria-selected="false"><i class="fa fa-camera"></i> Moments</button>
+      <button class="tab" type="button" data-tab="sheets" role="tab" aria-selected="false"><i class="fa fa-table"></i> Form responses</button>
+      <button class="tab" type="button" data-tab="account" role="tab" aria-selected="false"><i class="fa fa-user-gear"></i> Account</button>
+    </nav>
+
+    <div data-panel="programs">
+      <div class="sec-head">
+        <div><h2>Programs</h2><p class="sub">Shown on the Home page, above Credentials. Each program opens in a pop-up with a Donate now button and a Corporate partnership button.</p></div>
+        <button class="btn btn-p" type="button" id="addProgram"><i class="fa fa-plus"></i> Add program</button>
+      </div>
+      <div class="list" id="programList"></div>
+    </div>
+
+    <div data-panel="moments" hidden>
+      <div class="sec-head">
+        <div><h2>Moments</h2><p class="sub">Shown on the Moments page, newest first, above the older moments.</p></div>
+        <button class="btn btn-p" type="button" id="addMoment"><i class="fa fa-plus"></i> Add moment</button>
+      </div>
+      <div class="list" id="momentList"></div>
+    </div>
+
+    <div data-panel="sheets" hidden>
+      <div class="sec-head">
+        <div><h2>Form responses</h2><p class="sub">The Google Sheets that collect your Google Form answers, in one place.</p></div>
+        <button class="btn btn-p" type="button" id="addSheet"><i class="fa fa-plus"></i> Add a sheet</button>
+      </div>
+      <div class="note" style="margin-bottom:.8rem"><i class="fa fa-circle-info"></i><div><b>How to get a sheet link:</b> open the Google Form → <b>Responses</b> tab → <b>Link to Sheets</b> (or <b>View in Sheets</b>) → copy the sheet’s address from the browser and paste it here with <b>Edit</b>.</div></div>
+      <div class="note warn" style="margin-bottom:1.2rem"><i class="fa fa-shield-halved"></i><div><b>Keep the sheets private.</b> They hold people’s names and phone numbers. Leave each sheet’s sharing on <b>Restricted</b> (only your team), and never use <b>Publish to the web</b>. The preview below only appears when you’re signed in to Google in this browser with access to the sheet; otherwise use <b>Open in Google Sheets</b>.</div></div>
+      <div class="list" id="sheetList"></div>
+    </div>
+
+    <div data-panel="account" hidden>
+      <div class="card" style="max-width:520px">
+        <p class="sub" style="margin-bottom:1rem">Signed in as <b id="accEmail"></b></p>
+        <h2 style="margin-bottom:.4rem">Change my password</h2>
+        <p class="sub" style="margin-bottom:1.2rem">At least 10 characters. Use one you don’t use anywhere else.</p>
+        <form id="pwForm" novalidate>
+          <div class="field"><label for="pw1">New password</label><input id="pw1" type="password" autocomplete="new-password"></div>
+          <div class="field"><label for="pw2">Type it again</label><input id="pw2" type="password" autocomplete="new-password"></div>
+          <p class="err" id="pwErr" role="alert"></p>
+          <button class="btn btn-p" type="submit" id="pwBtn"><i class="fa fa-key"></i> Change password</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Program editor -->
+<dialog id="dlgProgram" aria-labelledby="pTitleH">
+  <form id="programForm" novalidate>
+    <div class="dlg-h"><h2 id="pTitleH">Add program</h2><button class="xbtn" type="button" data-close aria-label="Close"><i class="fa fa-xmark"></i></button></div>
+    <div class="dlg-b">
+      <div class="two">
+        <div class="field"><label for="p_title_en">Title (English) *</label><input id="p_title_en" type="text" maxlength="120" required></div>
+        <div class="field"><label for="p_title_zh">Title (中文)</label><input id="p_title_zh" type="text" maxlength="120"></div>
+        <div class="field"><label for="p_summary_en">Short summary (English)</label><textarea id="p_summary_en" rows="2" maxlength="300"></textarea><span class="help">Shown on the card. One or two sentences.</span></div>
+        <div class="field"><label for="p_summary_zh">Short summary (中文)</label><textarea id="p_summary_zh" rows="2" maxlength="300"></textarea></div>
+        <div class="field"><label for="p_body_en">Full description (English)</label><textarea id="p_body_en" rows="7"></textarea><span class="help">Shown in the pop-up. Leave a blank line between paragraphs.</span></div>
+        <div class="field"><label for="p_body_zh">Full description (中文)</label><textarea id="p_body_zh" rows="7"></textarea><span class="help">Empty Chinese fields show the English text instead.</span></div>
+      </div>
+      <div class="field"><span class="lbl">Picture</span>
+        <div class="pic"><div class="pv" id="p_pv">No picture</div>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <label class="btn btn-g btn-s"><i class="fa fa-image"></i> Choose picture<input type="file" accept="image/*" id="p_file" hidden></label>
+            <button class="btn btn-g btn-s" type="button" id="p_nopic">Remove picture</button>
+          </div>
+        </div>
+        <span class="help">A landscape picture works best (16:9). It’s resized automatically, so any size is fine.</span>
+      </div>
+      <div class="field"><label for="p_corp">Corporate Google Form link</label>
+        <div class="note corp"><i class="fa fa-building"></i><div><b>This form is for corporate partners</b> (companies and organisations, CSR) only. On the website it appears as the <b>Corporate partnership</b> button, with a note saying it’s for companies. Leave it empty to hide that button.</div></div>
+        <input id="p_corp" type="url" placeholder="https://docs.google.com/forms/d/e/…/viewform">
+        <span class="help">In Google Forms: <b>Send</b> → link tab → copy the link.</span>
+      </div>
+      <div class="two">
+        <div class="field"><label for="p_donate">Donate link (optional)</label><input id="p_donate" type="url" placeholder="Leave empty for the main donation page"><span class="help">Only if this program has its own donation page.</span></div>
+        <div class="field"><label for="p_order">Order</label><input id="p_order" type="number" step="1" value="0"><span class="help">Smaller numbers show first.</span></div>
+      </div>
+      <label class="check"><input type="checkbox" id="p_pub"> Show on the website (published)</label>
+    </div>
+    <div class="dlg-f">
+      <button class="btn btn-d" type="button" id="p_del" hidden><i class="fa fa-trash"></i> Delete</button>
+      <span class="sp"></span>
+      <span class="err" id="p_err" role="alert"></span>
+      <button class="btn btn-g" type="button" data-close>Cancel</button>
+      <button class="btn btn-p" type="submit" id="p_save"><i class="fa fa-check"></i> Save</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Moment editor -->
+<dialog id="dlgMoment" aria-labelledby="mTitleH">
+  <form id="momentForm" novalidate>
+    <div class="dlg-h"><h2 id="mTitleH">Add moment</h2><button class="xbtn" type="button" data-close aria-label="Close"><i class="fa fa-xmark"></i></button></div>
+    <div class="dlg-b">
+      <div class="two">
+        <div class="field"><label for="m_tag">Type</label>
+          <select id="m_tag"><option value="activities">Activities</option><option value="community">Community</option><option value="appeal">Appeal (asks for help)</option></select></div>
+        <div class="field"><label for="m_date">Date</label><input id="m_date" type="date"><span class="help">The website shows the year. Newest moments show first.</span></div>
+        <div class="field"><label for="m_title_en">Title (English) *</label><input id="m_title_en" type="text" maxlength="140" required></div>
+        <div class="field"><label for="m_title_zh">Title (中文)</label><input id="m_title_zh" type="text" maxlength="140"></div>
+        <div class="field"><label for="m_summary_en">Short text (English)</label><textarea id="m_summary_en" rows="2" maxlength="320"></textarea><span class="help">Shown on the card.</span></div>
+        <div class="field"><label for="m_summary_zh">Short text (中文)</label><textarea id="m_summary_zh" rows="2" maxlength="320"></textarea></div>
+        <div class="field"><label for="m_body_en">Full story (English)</label><textarea id="m_body_en" rows="6"></textarea><span class="help">Opens with “Read more”. Leave a blank line between paragraphs.</span></div>
+        <div class="field"><label for="m_body_zh">Full story (中文)</label><textarea id="m_body_zh" rows="6"></textarea><span class="help">Empty Chinese fields show the English text instead.</span></div>
+      </div>
+      <div class="field"><span class="lbl">Main picture</span>
+        <div class="pic"><div class="pv" id="m_pv">No picture</div>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <label class="btn btn-g btn-s"><i class="fa fa-image"></i> Choose picture<input type="file" accept="image/*" id="m_file" hidden></label>
+            <button class="btn btn-g btn-s" type="button" id="m_nopic">Remove picture</button>
+          </div>
+        </div>
+      </div>
+      <div class="field"><span class="lbl">Extra photos (optional)</span>
+        <label class="btn btn-g btn-s" style="align-self:flex-start"><i class="fa fa-images"></i> Add photos<input type="file" accept="image/*" id="m_files" multiple hidden></label>
+        <div class="photos" id="m_photos"></div>
+        <span class="help">Shown as small photos under “Read more”; visitors tap one to see it big.</span>
+      </div>
+      <label class="check" style="margin-bottom:.7rem"><input type="checkbox" id="m_donate"> Add a “Donate now” button (for appeals)</label>
+      <label class="check"><input type="checkbox" id="m_pub"> Show on the website (published)</label>
+    </div>
+    <div class="dlg-f">
+      <button class="btn btn-d" type="button" id="m_del" hidden><i class="fa fa-trash"></i> Delete</button>
+      <span class="sp"></span>
+      <span class="err" id="m_err" role="alert"></span>
+      <button class="btn btn-g" type="button" data-close>Cancel</button>
+      <button class="btn btn-p" type="submit" id="m_save"><i class="fa fa-check"></i> Save</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(function () {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const BUCKET = 'ch-media';
+  const cfg = window.CH_SUPABASE || {};
+  const url = String(cfg.url || '').trim().replace(/\/+$/, ''), key = String(cfg.key || '').trim();
+  const views = ['vSetup', 'vLogin', 'vDenied', 'vApp'];
+  const show = v => views.forEach(x => { $(x).hidden = x !== v; });
+
+  if (!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url) || !key || !window.supabase) { show('vSetup'); return; }
+  const sb = window.supabase.createClient(url, key, { auth: { persistSession: true, autoRefreshToken: true } });
+
+  /* ── small helpers ─────────────────────────────────────────────────────── */
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const val = id => $(id).value.trim();
+  const isUrl = u => !u || /^https:\/\/[^\s"'<>]+$/i.test(u);
+  let toastT;
+  function toast(msg, bad) { const t = $('toast'); t.textContent = msg; t.classList.toggle('bad', !!bad); t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 3200); }
+  function friendly(e) {
+    const m = String((e && (e.message || e.error_description)) || e || '');
+    if (/invalid login credentials/i.test(m)) return 'Wrong email or password.';
+    if (/row-level security|permission denied|not allowed/i.test(m)) return 'Your account isn’t allowed to do this. Ask an admin to check you’re on the admin list.';
+    if (/failed to fetch|network/i.test(m)) return 'Can’t reach the database. Check your internet connection and try again.';
+    if (/payload too large|exceeded the maximum/i.test(m)) return 'That picture is too large. Try a smaller one.';
+    return m || 'Something went wrong. Please try again.';
+  }
+  function busy(btn, on) { btn.disabled = on; if (on) { btn.dataset.html = btn.innerHTML; btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Please wait…'; } else if (btn.dataset.html) btn.innerHTML = btn.dataset.html; }
+  const pathOf = publicUrl => { const m = String(publicUrl || '').match(/\/storage\/v1\/object\/public\/ch-media\/(.+)$/); return m ? decodeURIComponent(m[1]) : null; };
+  async function removeFiles(urls) { const paths = urls.map(pathOf).filter(Boolean); if (paths.length) await sb.storage.from(BUCKET).remove(paths).catch(() => {}); }
+
+  /* Pictures are shrunk in the browser before upload, so the website stays fast */
+  async function shrink(file, maxW, quality) {
+    let bmp;
+    try { bmp = await createImageBitmap(file, { imageOrientation: 'from-image' }); }
+    catch (e) { bmp = await new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => no(new Error('That file isn’t a picture the browser can read. Try a JPG or PNG.')); i.src = URL.createObjectURL(file); }); }
+    const w0 = bmp.width, h0 = bmp.height, s = Math.min(1, maxW / w0);
+    const c = document.createElement('canvas'); c.width = Math.round(w0 * s); c.height = Math.round(h0 * s);
+    const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(bmp, 0, 0, c.width, c.height);
+    return new Promise(ok => c.toBlob(ok, 'image/jpeg', quality));
+  }
+  async function upload(blob, folder) {
+    const path = folder + '/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.jpg';
+    const { error } = await sb.storage.from(BUCKET).upload(path, blob, { contentType: 'image/jpeg', cacheControl: '31536000', upsert: false });
+    if (error) throw error;
+    return sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+  }
+  const preview = (el, src) => { el.style.backgroundImage = src ? 'url("' + src.replace(/"/g, '%22') + '")' : ''; el.textContent = src ? '' : 'No picture'; };
+
+  /* ── sign in / out ─────────────────────────────────────────────────────── */
+  let started = false;
+  async function route(session) {
+    if (!session) { $('who').hidden = true; show('vLogin'); started = false; return; }
+    $('whoEmail').textContent = $('accEmail').textContent = session.user.email || ''; $('who').hidden = false;
+    const { data: ok, error } = await sb.rpc('ch_is_admin');
+    if (error || !ok) { $('dEmail').textContent = session.user.email || ''; show('vDenied'); return; }
+    show('vApp');
+    if (!started) { started = true; loadPrograms(); loadMoments(); loadSheets(); }
+  }
+  sb.auth.getSession().then(({ data }) => route(data.session));
+  sb.auth.onAuthStateChange((ev, session) => { if (ev === 'SIGNED_IN' || ev === 'SIGNED_OUT') route(session); });
+
+  $('loginForm').addEventListener('submit', async e => {
+    e.preventDefault(); $('lErr').textContent = '';
+    const email = val('lEmail'), password = $('lPass').value;
+    if (!email || !password) { $('lErr').textContent = 'Please enter your email and password.'; return; }
+    busy($('lBtn'), true);
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    busy($('lBtn'), false);
+    if (error) $('lErr').textContent = friendly(error); else $('lPass').value = '';
+  });
+  $('signOut').addEventListener('click', async () => { await sb.auth.signOut(); location.reload(); });
+
+  /* ── tabs ──────────────────────────────────────────────────────────────── */
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => { x.classList.toggle('on', x === t); x.setAttribute('aria-selected', x === t); });
+    document.querySelectorAll('[data-panel]').forEach(p => { p.hidden = p.dataset.panel !== t.dataset.tab; });
+  }));
+  document.querySelectorAll('dialog [data-close]').forEach(b => b.addEventListener('click', () => b.closest('dialog').close()));
+
+  /* ── Programs ──────────────────────────────────────────────────────────── */
+  let programs = [], pEdit = null, pNewFile = null, pPic = '';
+  async function loadPrograms() {
+    const { data, error } = await sb.from('ch_programs').select('*').order('sort_order', { ascending: true }).order('created_at', { ascending: false });
+    if (error) { $('programList').innerHTML = '<p class="err">' + esc(friendly(error)) + '</p>'; return; }
+    programs = data; renderPrograms();
+  }
+  function renderPrograms() {
+    $('programList').innerHTML = programs.length ? programs.map(p =>
+      '<div class="row"><div class="th" style="' + (p.image_url ? 'background-image:url(&quot;' + esc(p.image_url) + '&quot;)' : '') + '">' + (p.image_url ? '' : '<i class="fa fa-hands-holding-child"></i>') + '</div>'
+      + '<div><b>' + esc(p.title_en) + '</b><div class="meta">' + (p.published ? '<span class="badge pub"><i class="fa fa-eye"></i> Published</span>' : '<span class="badge draft"><i class="fa fa-eye-slash"></i> Draft</span>')
+      + '<span>Order ' + esc(p.sort_order) + '</span>' + (p.corporate_form_url ? '<span><i class="fa fa-building"></i> Corporate form set</span>' : '<span>No corporate form</span>') + '</div></div>'
+      + '<div class="acts"><button class="btn btn-g btn-s" data-pub="' + p.id + '">' + (p.published ? 'Unpublish' : 'Publish') + '</button><button class="btn btn-p btn-s" data-edit="' + p.id + '"><i class="fa fa-pen"></i> Edit</button></div></div>'
+    ).join('') : '<div class="empty">No programs yet. Click <b>Add program</b> to create the first one. The Programs section on the Home page appears once a program is published.</div>';
+  }
+  $('programList').addEventListener('click', async e => {
+    const ed = e.target.closest('[data-edit]'), pb = e.target.closest('[data-pub]');
+    if (ed) openProgram(programs.find(p => p.id === ed.dataset.edit));
+    if (pb) {
+      const p = programs.find(x => x.id === pb.dataset.pub); busy(pb, true);
+      const { error } = await sb.from('ch_programs').update({ published: !p.published }).eq('id', p.id);
+      if (error) { busy(pb, false); toast(friendly(error), true); return; }
+      toast(p.published ? 'Program hidden from the website.' : 'Program is now on the website.'); loadPrograms();
+    }
+  });
+  $('addProgram').addEventListener('click', () => openProgram(null));
+  function openProgram(p) {
+    pEdit = p; pNewFile = null; pPic = p ? (p.image_url || '') : '';
+    $('pTitleH').textContent = p ? 'Edit program' : 'Add program';
+    ['title_en', 'title_zh', 'summary_en', 'summary_zh', 'body_en', 'body_zh'].forEach(f => { $('p_' + f).value = p ? (p[f] || '') : ''; });
+    $('p_corp').value = p ? (p.corporate_form_url || '') : ''; $('p_donate').value = p ? (p.donate_url || '') : '';
+    $('p_order').value = p ? p.sort_order : (programs.length ? Math.max(...programs.map(x => x.sort_order)) + 1 : 1);
+    $('p_pub').checked = p ? p.published : false; $('p_del').hidden = !p; $('p_err').textContent = ''; $('p_file').value = '';
+    preview($('p_pv'), pPic); $('dlgProgram').showModal();
+  }
+  $('p_file').addEventListener('change', e => { const f = e.target.files[0]; if (!f) return; pNewFile = f; preview($('p_pv'), URL.createObjectURL(f)); });
+  $('p_nopic').addEventListener('click', () => { pNewFile = null; pPic = ''; $('p_file').value = ''; preview($('p_pv'), ''); });
+  $('programForm').addEventListener('submit', async e => {
+    e.preventDefault(); $('p_err').textContent = '';
+    const row = {
+      title_en: val('p_title_en'), title_zh: val('p_title_zh') || null, summary_en: val('p_summary_en') || null, summary_zh: val('p_summary_zh') || null,
+      body_en: val('p_body_en') || null, body_zh: val('p_body_zh') || null, corporate_form_url: val('p_corp') || null, donate_url: val('p_donate') || null,
+      sort_order: parseInt($('p_order').value, 10) || 0, published: $('p_pub').checked
+    };
+    if (!row.title_en) { $('p_err').textContent = 'Please add an English title.'; $('p_title_en').focus(); return; }
+    if (!isUrl(row.corporate_form_url)) { $('p_err').textContent = 'The corporate form link must start with https://'; $('p_corp').focus(); return; }
+    if (!isUrl(row.donate_url)) { $('p_err').textContent = 'The donate link must start with https://'; $('p_donate').focus(); return; }
+    const btn = $('p_save'); busy(btn, true);
+    try {
+      const oldPic = pEdit ? pEdit.image_url : null;
+      row.image_url = pNewFile ? await upload(await shrink(pNewFile, 1600, .82), 'programs') : (pPic || null);
+      const q = pEdit ? sb.from('ch_programs').update(row).eq('id', pEdit.id) : sb.from('ch_programs').insert(row);
+      const { error } = await q; if (error) throw error;
+      if (oldPic && oldPic !== row.image_url) await removeFiles([oldPic]);
+      $('dlgProgram').close(); toast(pEdit ? 'Program saved.' : 'Program added.' + (row.published ? '' : ' It’s a draft until you publish it.')); loadPrograms();
+    } catch (err) { $('p_err').textContent = friendly(err); }
+    busy(btn, false);
+  });
+  $('p_del').addEventListener('click', async () => {
+    if (!pEdit || !confirm('Delete “' + pEdit.title_en + '”? This can’t be undone.')) return;
+    const { error } = await sb.from('ch_programs').delete().eq('id', pEdit.id);
+    if (error) { $('p_err').textContent = friendly(error); return; }
+    await removeFiles([pEdit.image_url]); $('dlgProgram').close(); toast('Program deleted.'); loadPrograms();
+  });
+
+  /* ── Moments ───────────────────────────────────────────────────────────── */
+  const TAG = { activities: 'Activities', community: 'Community', appeal: 'Appeal' };
+  let moments = [], mEdit = null, mNewFile = null, mPic = '', mPhotos = [];   // mPhotos: {src, thumb} saved, or {file, preview} new
+  async function loadMoments() {
+    const { data, error } = await sb.from('ch_moments').select('*').order('moment_date', { ascending: false }).order('created_at', { ascending: false });
+    if (error) { $('momentList').innerHTML = '<p class="err">' + esc(friendly(error)) + '</p>'; return; }
+    moments = data; renderMoments();
+  }
+  function renderMoments() {
+    $('momentList').innerHTML = moments.length ? moments.map(m =>
+      '<div class="row"><div class="th" style="' + (m.image_url ? 'background-image:url(&quot;' + esc(m.image_url) + '&quot;)' : '') + '">' + (m.image_url ? '' : '<i class="fa fa-camera"></i>') + '</div>'
+      + '<div><b>' + esc(m.title_en) + '</b><div class="meta">' + (m.published ? '<span class="badge pub"><i class="fa fa-eye"></i> Published</span>' : '<span class="badge draft"><i class="fa fa-eye-slash"></i> Draft</span>')
+      + '<span class="badge' + (m.tag === 'appeal' ? ' appeal' : ' draft') + '">' + TAG[m.tag] + '</span><span>' + esc(m.moment_date) + '</span>' + ((m.photos || []).length ? '<span><i class="fa fa-images"></i> ' + m.photos.length + ' extra photos</span>' : '') + '</div></div>'
+      + '<div class="acts"><button class="btn btn-g btn-s" data-pub="' + m.id + '">' + (m.published ? 'Unpublish' : 'Publish') + '</button><button class="btn btn-p btn-s" data-edit="' + m.id + '"><i class="fa fa-pen"></i> Edit</button></div></div>'
+    ).join('') : '<div class="empty">No moments added here yet. Click <b>Add moment</b>. The three older moments on the Moments page stay as they are.</div>';
+  }
+  $('momentList').addEventListener('click', async e => {
+    const ed = e.target.closest('[data-edit]'), pb = e.target.closest('[data-pub]');
+    if (ed) openMoment(moments.find(m => m.id === ed.dataset.edit));
+    if (pb) {
+      const m = moments.find(x => x.id === pb.dataset.pub); busy(pb, true);
+      const { error } = await sb.from('ch_moments').update({ published: !m.published }).eq('id', m.id);
+      if (error) { busy(pb, false); toast(friendly(error), true); return; }
+      toast(m.published ? 'Moment hidden from the website.' : 'Moment is now on the website.'); loadMoments();
+    }
+  });
+  $('addMoment').addEventListener('click', () => openMoment(null));
+  function openMoment(m) {
+    mEdit = m; mNewFile = null; mPic = m ? (m.image_url || '') : ''; mPhotos = m ? (m.photos || []).map(p => ({ src: p.src, thumb: p.thumb })) : [];
+    $('mTitleH').textContent = m ? 'Edit moment' : 'Add moment';
+    ['title_en', 'title_zh', 'summary_en', 'summary_zh', 'body_en', 'body_zh'].forEach(f => { $('m_' + f).value = m ? (m[f] || '') : ''; });
+    $('m_tag').value = m ? m.tag : 'activities'; $('m_date').value = m ? m.moment_date : new Date().toISOString().slice(0, 10);
+    $('m_donate').checked = m ? m.show_donate : false; $('m_pub').checked = m ? m.published : false;
+    $('m_del').hidden = !m; $('m_err').textContent = ''; $('m_file').value = ''; $('m_files').value = '';
+    preview($('m_pv'), mPic); renderPhotos(); $('dlgMoment').showModal();
+  }
+  function renderPhotos() {
+    $('m_photos').innerHTML = mPhotos.map((p, i) => '<div class="ph" style="background-image:url(&quot;' + esc(p.preview || p.thumb || p.src) + '&quot;)"><button type="button" data-rm="' + i + '" aria-label="Remove photo ' + (i + 1) + '"><i class="fa fa-xmark"></i></button></div>').join('');
+  }
+  $('m_photos').addEventListener('click', e => { const b = e.target.closest('[data-rm]'); if (b) { mPhotos.splice(+b.dataset.rm, 1); renderPhotos(); } });
+  $('m_files').addEventListener('change', e => { [...e.target.files].forEach(f => mPhotos.push({ file: f, preview: URL.createObjectURL(f) })); e.target.value = ''; renderPhotos(); });
+  $('m_file').addEventListener('change', e => { const f = e.target.files[0]; if (!f) return; mNewFile = f; preview($('m_pv'), URL.createObjectURL(f)); });
+  $('m_nopic').addEventListener('click', () => { mNewFile = null; mPic = ''; $('m_file').value = ''; preview($('m_pv'), ''); });
+  $('m_tag').addEventListener('change', () => { if ($('m_tag').value === 'appeal') $('m_donate').checked = true; });
+  $('momentForm').addEventListener('submit', async e => {
+    e.preventDefault(); $('m_err').textContent = '';
+    const row = {
+      tag: $('m_tag').value, moment_date: $('m_date').value || new Date().toISOString().slice(0, 10),
+      title_en: val('m_title_en'), title_zh: val('m_title_zh') || null, summary_en: val('m_summary_en') || null, summary_zh: val('m_summary_zh') || null,
+      body_en: val('m_body_en') || null, body_zh: val('m_body_zh') || null, show_donate: $('m_donate').checked, published: $('m_pub').checked
+    };
+    if (!row.title_en) { $('m_err').textContent = 'Please add an English title.'; $('m_title_en').focus(); return; }
+    const btn = $('m_save'); busy(btn, true);
+    try {
+      const oldPic = mEdit ? mEdit.image_url : null, oldPhotos = mEdit ? (mEdit.photos || []) : [];
+      row.image_url = mNewFile ? await upload(await shrink(mNewFile, 1400, .82), 'moments') : (mPic || null);
+      const photos = [];
+      for (const p of mPhotos) {
+        if (p.file) photos.push({ src: await upload(await shrink(p.file, 1600, .82), 'moments'), thumb: await upload(await shrink(p.file, 360, .8), 'moments/thumbs') });
+        else photos.push({ src: p.src, thumb: p.thumb });
+      }
+      row.photos = photos;
+      const q = mEdit ? sb.from('ch_moments').update(row).eq('id', mEdit.id) : sb.from('ch_moments').insert(row);
+      const { error } = await q; if (error) throw error;
+      const keep = new Set([row.image_url, ...photos.flatMap(p => [p.src, p.thumb])]);
+      await removeFiles([oldPic, ...oldPhotos.flatMap(p => [p.src, p.thumb])].filter(u => u && !keep.has(u)));
+      $('dlgMoment').close(); toast(mEdit ? 'Moment saved.' : 'Moment added.' + (row.published ? '' : ' It’s a draft until you publish it.')); loadMoments();
+    } catch (err) { $('m_err').textContent = friendly(err); }
+    busy(btn, false);
+  });
+  $('m_del').addEventListener('click', async () => {
+    if (!mEdit || !confirm('Delete “' + mEdit.title_en + '”? This can’t be undone.')) return;
+    const { error } = await sb.from('ch_moments').delete().eq('id', mEdit.id);
+    if (error) { $('m_err').textContent = friendly(error); return; }
+    await removeFiles([mEdit.image_url, ...(mEdit.photos || []).flatMap(p => [p.src, p.thumb])]); $('dlgMoment').close(); toast('Moment deleted.'); loadMoments();
+  });
+
+  /* ── Form responses (Google Sheets) ────────────────────────────────────── */
+  let sheets = [];
+  const embedUrl = u => { const m = String(u || '').match(/^https:\/\/docs\.google\.com\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/); return m ? 'https://docs.google.com/spreadsheets/d/' + m[1] + '/edit?rm=minimal' : null; };
+  async function loadSheets() {
+    const { data, error } = await sb.from('ch_sheets').select('*').order('sort_order', { ascending: true }).order('created_at', { ascending: true });
+    if (error) { $('sheetList').innerHTML = '<p class="err">' + esc(friendly(error)) + '</p>'; return; }
+    sheets = data; renderSheets();
+  }
+  function renderSheets() {
+    $('sheetList').innerHTML = sheets.length ? sheets.map(s => {
+      const ok = embedUrl(s.url);
+      return '<div class="sheet" data-id="' + s.id + '"><div class="sheet-top"><b><i class="fa fa-table" style="color:#1e8e3e"></i> ' + esc(s.name) + '</b>'
+        + (s.url ? '<a class="btn btn-p btn-s" href="' + esc(s.url) + '" target="_blank" rel="noopener"><i class="fa fa-arrow-up-right-from-square"></i> Open in Google Sheets</a>' : '<span class="help">No sheet link yet</span>')
+        + (ok ? '<button class="btn btn-g btn-s" type="button" data-view>Show here</button>' : '')
+        + '<button class="btn btn-g btn-s" type="button" data-editsheet><i class="fa fa-pen"></i> Edit</button></div>'
+        + '<div class="sheet-edit" hidden><input type="text" value="' + esc(s.name) + '" aria-label="Name" data-n><input type="url" value="' + esc(s.url || '') + '" placeholder="https://docs.google.com/spreadsheets/d/…" aria-label="Sheet link" data-u>'
+        + '<div style="display:flex;gap:.4rem"><button class="btn btn-p btn-s" type="button" data-savesheet>Save</button><button class="btn btn-d btn-s" type="button" data-delsheet aria-label="Remove"><i class="fa fa-trash"></i></button></div></div>'
+        + '<div class="frame"></div></div>';
+    }).join('') : '<div class="empty">No sheets yet. Click <b>Add a sheet</b>.</div>';
+  }
+  $('sheetList').addEventListener('click', async e => {
+    const box = e.target.closest('.sheet'); if (!box) return;
+    const s = sheets.find(x => x.id === box.dataset.id);
+    if (e.target.closest('[data-view]')) {
+      const fr = box.querySelector('.frame'), b = e.target.closest('[data-view]');
+      if (fr.innerHTML) { fr.innerHTML = ''; b.textContent = 'Show here'; return; }
+      fr.innerHTML = '<iframe src="' + esc(embedUrl(s.url)) + '" title="' + esc(s.name) + ' responses" loading="lazy" referrerpolicy="no-referrer"></iframe><p class="help" style="margin-top:.4rem">Blank, or asking you to sign in? Use <b>Open in Google Sheets</b> instead.</p>';
+      b.textContent = 'Hide';
+    }
+    if (e.target.closest('[data-editsheet]')) { const ed = box.querySelector('.sheet-edit'); ed.hidden = !ed.hidden; if (!ed.hidden) ed.querySelector('[data-u]').focus(); }
+    if (e.target.closest('[data-savesheet]')) {
+      const name = box.querySelector('[data-n]').value.trim(), link = box.querySelector('[data-u]').value.trim();
+      if (!name) { toast('Please give the sheet a name.', true); return; }
+      if (link && !/^https:\/\/docs\.google\.com\/spreadsheets\/d\//.test(link)) { toast('That doesn’t look like a Google Sheets link (it should start with https://docs.google.com/spreadsheets/d/).', true); return; }
+      const { error } = await sb.from('ch_sheets').update({ name, url: link || null }).eq('id', s.id);
+      if (error) { toast(friendly(error), true); return; }
+      toast('Sheet saved.'); loadSheets();
+    }
+    if (e.target.closest('[data-delsheet]')) {
+      if (!confirm('Remove “' + s.name + '” from this list? (The Google Sheet itself isn’t deleted.)')) return;
+      const { error } = await sb.from('ch_sheets').delete().eq('id', s.id);
+      if (error) { toast(friendly(error), true); return; }
+      toast('Removed from the list.'); loadSheets();
+    }
+  });
+  $('addSheet').addEventListener('click', async () => {
+    const { error } = await sb.from('ch_sheets').insert({ name: 'New sheet', sort_order: sheets.length + 1 });
+    if (error) { toast(friendly(error), true); return; }
+    await loadSheets();
+    const last = $('sheetList').querySelector('.sheet:last-child'); if (last) { last.querySelector('.sheet-edit').hidden = false; last.querySelector('[data-n]').select(); }
+  });
+
+  /* an error message disappears as soon as you start fixing it */
+  $('programForm').addEventListener('input', () => { $('p_err').textContent = ''; });
+  $('momentForm').addEventListener('input', () => { $('m_err').textContent = ''; });
+
+  /* ── Account ───────────────────────────────────────────────────────────── */
+  $('pwForm').addEventListener('submit', async e => {
+    e.preventDefault(); $('pwErr').textContent = '';
+    const a = $('pw1').value, b = $('pw2').value;
+    if (a.length < 10) { $('pwErr').textContent = 'Please use at least 10 characters.'; return; }
+    if (a !== b) { $('pwErr').textContent = 'The two passwords don’t match.'; return; }
+    busy($('pwBtn'), true);
+    const { error } = await sb.auth.updateUser({ password: a });
+    busy($('pwBtn'), false);
+    if (error) { $('pwErr').textContent = friendly(error); return; }
+    $('pw1').value = $('pw2').value = ''; toast('Password changed.');
+  });
+})();
+</script>
+</body>
+</html>
